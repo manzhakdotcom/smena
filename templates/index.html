@@ -1,10 +1,21 @@
+{% load staticfiles %}
 <html lang="ru">
 <head>
-{% include "head.html" %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Home page{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <p>{{ val }}</p>
+    <div class="menu">
+        <ul>
+            <li><a href="{% url 'index' %}">Главная</a></li>
+            <li><a href="{% url 'add/index' %}">Добавить</a></li>
+        </ul>
+    </div>
     {% block content %}
+        <p>Hello!</p>
     {% endblock %}
 </body>
 </html>

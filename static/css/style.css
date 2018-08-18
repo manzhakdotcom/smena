@@ -7,6 +7,45 @@ ul {
     list-style-type: none;
 }
 
+input, select {
+    padding: 6px 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    display: block;
+    outline: none;
+}
+
+
+input:focus, textarea:focus {
+    border: 2px solid #555;
+}
+
+textarea {
+    width: 260px;
+    height: 150px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    resize: none;
+    display: block;
+    outline: none;
+
+}
+
+input[type=button], input[type=submit], input[type=reset], button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    display: inline-block;
+}
+
 .wrapp {
     width: 50%;
     margin: 0 auto;

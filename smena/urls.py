@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from journal.views import (index, content)
-from journal.views import (add, write_down, write_out, extra_write_out)
+from journal.views import (add, write_down, WriteOut, extra_write_out)
 
 urlpatterns = [
     path('', index, name='index'),
     path('add/', add, name='add/index'),
     path('add/write-down', write_down, name='add/write-down'),
-    path('add/write-out', write_out, name='add/write-out'),
+    path('add/write-out', WriteOut.as_view(), name='add/write-out'),
     path('add/extra-write-out', extra_write_out, name='add/extra-write-out'),
     path('<int:val>', content, name='content'),
     path('admin/', admin.site.urls),

@@ -2,6 +2,23 @@
 {% block title %}Добавить выписку{% endblock %}
 {% block content %}
 <p>Выписка</p>
+<div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form action="{% url 'add/write-out' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Отправить" >
+    </form>
+</div>
+<hr>
 <form>
   <div>
   <p>

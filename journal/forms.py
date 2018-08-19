@@ -22,4 +22,3 @@ class WriteOutForm(forms.Form):
             raise ValidationError('Fuck you')
         return self.cleaned_data
 
-

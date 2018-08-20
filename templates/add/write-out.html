@@ -12,7 +12,7 @@
     </div>
     {% endif %}
 
-    <form action="{% url 'add/write-out' %}" method="POST">
+    <form action="{% url 'journal:add/write-out' %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Отправить" >

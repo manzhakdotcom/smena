@@ -20,5 +20,4 @@ class WriteOutForm(forms.Form):
     def clean_write_out(self):
         if 'fuck' in self.cleaned_data.get('write_out', None):
             raise ValidationError('Fuck you')
-        return self.cleaned_data
-
+        return self.cleaned_dat

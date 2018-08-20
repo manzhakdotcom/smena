@@ -17,19 +17,19 @@ def content(request, val):
 
 def add(request):
     if request.method == 'GET':
-        return render(request, 'add/index.html', {}) 
+        return render(request, 'journal/add/index.html', {})
 
 
 def write_down(request):
     if request.method == 'GET':
-        return render(request, 'add/write-down.html', {})  
+        return render(request, 'journal/add/write-down.html', {})
 
 
 class WriteOut(View):
 
     def get(self, request):
         form = WriteOutForm()
-        return render(request, 'add/write-out.html', {'form': form})
+        return render(request, 'journal/add/write-out.html', {'form': form})
 
     def post(self, request):
         form = WriteOutForm(data=request.POST)
@@ -37,9 +37,9 @@ class WriteOut(View):
             messages.success(request, form.cleaned_data['dispatcher'])
         else:
             messages.error(request, 'Validation failed')
-        return render(request, 'add/write-out.html', {'form': form})
+        return render(request, 'journal/add/write-out.html', {'form': form})
 
 
 def extra_write_out(request):
     if request.method == 'GET':
-        return render(request, 'add/extra-write-out.html', {})
+        return render(request, 'journal/add/extra-write-out.html', {})

@@ -1,7 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import View
-from journal.forms import WriteOutForm
-from django.contrib import messages
+from journal.forms import WriteOutForm, WriteDownForm
 
 
 # Create your views here.
@@ -22,21 +20,13 @@ def add(request):
 
 def write_down(request):
     if request.method == 'GET':
-        return render(request, 'journal/add/write-down.html', {})
+        form = WriteDownForm()
+        return render(request, 'journal/add/write-down.html', {'form': form})
 
 
-class WriteOut(View):
-
-    def get(self, request):
+def write_out(request):
+    if request.method == 'GET':
         form = WriteOutForm()
-        return render(request, 'journal/add/write-out.html', {'form': form})
-
-    def post(self, request):
-        form = WriteOutForm(data=request.POST)
-        if form.is_valid():
-            messages.success(request, form.cleaned_data['dispatcher'])
-        else:
-            messages.error(request, 'Validation failed')
         return render(request, 'journal/add/write-out.html', {'form': form})
 
 

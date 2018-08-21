@@ -1,11 +1,13 @@
 from django.shortcuts import render
+from django.utils import timezone
 from journal.forms import WriteOutForm, WriteDownForm
 
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
-        return render(request, 'index.html', {})
+        date = timezone.now
+        return render(request, 'index.html', {'date': date})
 
 
 def content(request, val):

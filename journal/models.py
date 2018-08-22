@@ -6,6 +6,7 @@ from django.utils import timezone
 class WriteOut(models.Model):
     date_created = models.DateField(verbose_name='Дата выписки', default=timezone.now)
     write_out = models.TextField(verbose_name='Выписка', default='Выписка...')
+    write_down_id = models.ForeignKey('WriteDown', on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}'.format(self.date_created)
@@ -25,3 +26,15 @@ class WriteDown(models.Model):
     class Meta:
         verbose_name = 'Запись СЦБ'
         verbose_name_plural = 'Записи СЦБ'
+
+
+class ExtraWriteOut(models.Model):
+    date_created = models.DateField(verbose_name='Дата доп. выписки', default=timezone.now)
+    extra_write_out = models.TextField(verbose_name='Доп. выписка', default='Доп. выписка...')
+
+    def __str__(self):
+        return '{}'.format(self.date_created)
+
+    class Meta:
+        verbose_name = 'Доп. выписка СЦБ'
+        verbose_name_plural = 'Доп. выписка СЦБ'

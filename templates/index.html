@@ -16,6 +16,12 @@
     </div>
     {% block content %}
         <p>Записи за <strong>{{ date }}</strong>.</p> <p>Деж.инж. <strong>Манжак Сергей Сергеевич.</strong></p>
+        <hr>
+        {% for item in items %}
+            <p>№ {{ item.id }}</p>
+            <p><strong>{{ item.date_created }}</strong> {{ item.write_down }}</p>
+            <hr>
+        {% endfor %}
     {% endblock %}
 </body>
 </html>

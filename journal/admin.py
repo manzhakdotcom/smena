@@ -1,5 +1,5 @@
 from django.contrib import admin
-from journal.models import WriteOut, WriteDown
+from journal.models import WriteOut, WriteDown, ExtraWriteOut
 
 # Register your models here.
 
@@ -11,4 +11,9 @@ class WriteOutAdmin(admin.ModelAdmin):
 
 @admin.register(WriteDown)
 class WriteDownAdmin(admin.ModelAdmin):
+    list_dispalay = ['date_created']
+
+
+@admin.register(ExtraWriteOut)
+class ExtraWriteOutAdmin(admin.ModelAdmin):
     list_dispalay = ['date_created']

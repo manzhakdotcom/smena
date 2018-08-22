@@ -1,13 +1,19 @@
 from django.shortcuts import render
 from django.utils import timezone
-from journal.forms import WriteOutForm, WriteDownForm
+from journal.models import WriteDown
+from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
 
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
+        all_write_down = WriteDown.objects.all()
         date = timezone.now
-        return render(request, 'index.html', {'date': date})
+        data = {
+            'date': date,
+            'items': all_write_down,
+        }
+        return render(request, 'index.html', data)
 
 
 def content(request, val):
@@ -34,4 +40,5 @@ def write_out(request):
 
 def extra_write_out(request):
     if request.method == 'GET':
-        return render(request, 'journal/add/extra-write-out.html', {})
+        form = ExtraWriteOutForm
+        return render(request, 'journal/add/extra-write-out.html', {'form': form})

@@ -3,9 +3,11 @@ from journal.models import WriteOut, WriteDown, ExtraWriteOut
 
 
 class WriteOutForm(forms.ModelForm):
+    write_down = forms.ModelChoiceField(queryset=WriteDown.objects.all(), widget=forms.HiddenInput)
+
     class Meta:
         model = WriteOut
-        fields = ('date_created', 'write_out')
+        fields = ('date_created', 'write_out', 'write_down')
         widgets = {
             'date_created': forms.DateInput(attrs={'type': 'date'})
         }
@@ -14,7 +16,7 @@ class WriteOutForm(forms.ModelForm):
 class WriteDownForm(forms.ModelForm):
     class Meta:
         model = WriteDown
-        fields = '__all__'
+        fields = ('date_created', 'write_down')
         widgets = {
             'date_created': forms.DateInput(attrs={'type': 'date'})
         }
@@ -23,7 +25,7 @@ class WriteDownForm(forms.ModelForm):
 class ExtraWriteOutForm(forms.ModelForm):
     class Meta:
         model = ExtraWriteOut
-        fields = '__all__'
+        fields = ('date_created', 'extra_write_out')
         widgets = {
             'date_created': forms.DateInput(attrs={'type': 'date'})
         }

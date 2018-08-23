@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 
-from journal.views import index, content
+from journal.views import index
 from journal import urls as journal_urls
 
 urlpatterns = [
@@ -25,7 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Main pages
     path('', index, name='index'),
-    path('<int:val>', content, name='content'),
     # Add pages
     path('journal/', include(journal_urls, namespace='journal')),
 ]

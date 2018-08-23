@@ -7,8 +7,15 @@ ul {
     list-style-type: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 hr {
-    color: #cccccc;
+    border: none;
+    color: #ccc;
+    background-color: #ccc;
+    height: 1px;
 }
 
 input, select {
@@ -52,12 +59,13 @@ input[type=button], input[type=submit], input[type=reset], button {
 }
 
 .wrapp {
-    width: 50%;
+    width: 60%;
     margin: 0 auto;
 }
 
 .menu {
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .menu ul {
@@ -108,4 +116,37 @@ input[type=button], input[type=submit], input[type=reset], button {
 .button:hover {
     background-color: #4CAF50;
     color: white;
+}
+
+.write-donw-links ul {
+    margin: 0 0 0 -10px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.write-donw-links li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.write-donw-links li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+
+.section {
+    background-color: #ddd;
+    padding: 10px 10px;
+    margin-bottom: 20px;
+}
+
+.section span {
+    padding: 5px;
+    background-color: #ccc;
+    position: relative;
+    top:-5px;
+    left:-10px;
 }

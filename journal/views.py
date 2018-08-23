@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from journal.models import WriteDown
+
+from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
 
 
@@ -8,7 +9,6 @@ from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
 def index(request):
     if request.method == 'GET':
         all_write_down = WriteDown.objects.all()
-        print(all_write_down)
         date = timezone.now
         data = {
             'date': date,
@@ -17,14 +17,14 @@ def index(request):
         return render(request, 'index.html', data)
 
 
-def content(request, val):
+def detail(request, id):
     if request.method == 'GET':
-        return render(request, 'content.html', {'val': val})
-
-
-def add(request):
-    if request.method == 'GET':
-        return render(request, 'journal/add/index.html', {})
+        data = {
+            'write_down': WriteDown.objects.get(id=id),
+            'write_out': WriteOut.objects.filter(write_down_id=id).first(),
+            'extra_write_out': ExtraWriteOut.objects.filter(write_down_id=id).first(),
+        }
+        return render(request, 'journal/detail.html', data)
 
 
 def write_down(request):
@@ -33,13 +33,20 @@ def write_down(request):
         return render(request, 'journal/add/write-down.html', {'form': form})
 
 
-def write_out(request):
+def write_out(request, id_write_down):
+    write_down = get_object_or_404(WriteDown, id=id_write_down)
+    print(write_down)
+    form = WriteOutForm(request.POST or None, initial={
+        'write_down': write_down
+    })
     if request.method == 'GET':
-        form = WriteOutForm()
-        return render(request, 'journal/add/write-out.html', {'form': form})
+        data = {
+            'form': form
+        }
+        return render(request, 'journal/add/write-out.html', data)
 
 
-def extra_write_out(request):
+def extra_write_out(request, id_write_down):
     if request.method == 'GET':
         form = ExtraWriteOutForm
         return render(request, 'journal/add/extra-write-out.html', {'form': form})

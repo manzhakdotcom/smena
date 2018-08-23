@@ -1,9 +1,0 @@
-{% extends "index.html" %}
-{% block title %}Добавить{% endblock %}
-{% block content %}
-<div class="buttons">
-    <a class="button" href="{% url 'journal:add/write-down' %}">Запись</a>
-    <a class="button" href="{% url 'journal:add/write-out' %}">Выписка</a>
-    <a class="button" href="{% url 'journal:add/extra-write-out' %}">Доп. выписка</a>
-</div>
-{% endblock %}

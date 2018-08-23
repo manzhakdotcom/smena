@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+{% block title %}Подробно{% endblock %}
+{% block content %}
+<div class="section">
+    <span>Запись</span>
+    <p><strong>{{write_down.date_created|date:"d.m.Y"}}</strong></p>
+    <p>{{write_down.write_down}}</p>
+</div>
+<div class="section">
+    <span>Выписка</span>
+    <p><strong>{{write_out.date_created|date:"d.m.Y"}}</strong></p>
+    <p>{{write_out.write_out}}</p>
+</div>
+<div class="section">
+    <span>Доп. выписка</span>
+    <p><strong>{{extra_write_out.date_created|date:"d.m.Y"}}</strong></p>
+    <p>{{extra_write_out.extra_write_out}}</p>
+</div>
+{% endblock %}

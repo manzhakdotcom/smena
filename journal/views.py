@@ -8,6 +8,7 @@ from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
 def index(request):
     if request.method == 'GET':
         all_write_down = WriteDown.objects.all()
+        print(all_write_down)
         date = timezone.now
         data = {
             'date': date,

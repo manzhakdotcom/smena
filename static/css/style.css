@@ -7,6 +7,10 @@ ul {
     list-style-type: none;
 }
 
+hr {
+    color: #cccccc;
+}
+
 input, select {
     padding: 6px 10px;
     margin: 8px 0;

@@ -6,6 +6,6 @@ app_name = 'journal'
 urlpatterns = [
     path('detail/<int:id>', detail, name='detail'),
     path('add/write-down', write_down, name='add/write-down'),
-    path('add/write-out/<int:id>', write_out, name='add/write-out'),
-    path('add/extra-write-out/<int:id>', extra_write_out, name='add/extra-write-out'),
+    path('add/write-out', write_out, name='add/write-out'),
+    path('add/extra-write-out', extra_write_out, name='add/extra-write-out'),
 ]

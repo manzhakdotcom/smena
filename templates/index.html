@@ -17,7 +17,7 @@
         </ul>
     </div>
     {% block content %}
-        <p>Записи за <strong>{{ date|date:"d-m-Y" }}</strong>.</p> <p>Деж.инж. <strong>Манжак Сергей Сергеевич.</strong></p>
+        <p>Записи за <strong>{{ date|date:"d.m.Y" }}</strong>.</p> <p>Деж.инж. <strong>Манжак Сергей Сергеевич.</strong></p>
         {% if items.exists %}
             {% for item in items %}
             <div class="section">
@@ -25,8 +25,8 @@
                 <p> {{ item.write_down }}</p>
                 <div class="write-donw-links">
                     <ul>
-                        <li><a href="{% url 'journal:add/write-out' item.id %}">Выписка</a></li>
-                        <li><a href="{% url 'journal:add/extra-write-out' item.id %}">Доп. выписка</a></li>
+                        <li><a href="{% url 'journal:add/write-out' %}">Выписка</a></li>
+                        <li><a href="{% url 'journal:add/extra-write-out'%}">Доп. выписка</a></li>
                         <li><a href="{% url 'journal:detail' item.id %}">Подробно</a></li>
                     </ul>
                 </div>

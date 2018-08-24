@@ -33,12 +33,7 @@ def write_down(request):
         return render(request, 'journal/add/write-down.html', {'form': form})
 
 
-def write_out(request, id_write_down):
-    write_down = get_object_or_404(WriteDown, id=id_write_down)
-    print(write_down)
-    form = WriteOutForm(request.POST or None, initial={
-        'write_down': write_down
-    })
+def write_out(request):
     if request.method == 'GET':
         data = {
             'form': form
@@ -46,7 +41,7 @@ def write_out(request, id_write_down):
         return render(request, 'journal/add/write-out.html', data)
 
 
-def extra_write_out(request, id_write_down):
+def extra_write_out(request):
     if request.method == 'GET':
         form = ExtraWriteOutForm
         return render(request, 'journal/add/extra-write-out.html', {'form': form})

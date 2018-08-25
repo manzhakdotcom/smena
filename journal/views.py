@@ -19,7 +19,9 @@ def index(request):
 
 def detail(request, id):
     if request.method == 'GET':
+        date = timezone.now
         data = {
+            'date': date,
             'write_down': WriteDown.objects.get(id=id),
             'write_out': WriteOut.objects.filter(write_down_id=id).first(),
             'extra_write_out': ExtraWriteOut.objects.filter(write_down_id=id).first(),

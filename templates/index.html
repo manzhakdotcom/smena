@@ -9,22 +9,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body class="wrapp">
-    <nav class="uk-navbar-container" uk-navbar>
+<nav class="uk-navbar-container" uk-navbar>
 
     <div class="uk-navbar-left">
 
         <ul class="uk-navbar-nav">
             <li class="uk-active"><a href="{% url 'index' %}">Главная</a></li>
-            <li>
-                <a href="{% url 'journal:add/write-down' %}">Добавить запись</a>
-                <div class="uk-navbar-dropdown">
-                    <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li class="uk-active"><a href="#">Active</a></li>
-                        <li><a href="#">Item</a></li>
-                        <li><a href="#">Item</a></li>
-                    </ul>
-                </div>
-            </li>
             <li><a href="#">Архив</a></li>
         </ul>
 
@@ -48,27 +38,51 @@
     </div>
 
 </nav>
-    {% block content %}
-        <p>Записи за <strong>{{ date|date:"d.m.Y" }}</strong>.</p> <p>Деж.инж. <strong>Манжак Сергей Сергеевич.</strong></p>
-        {% if items.exists %}
-            {% for item in items %}
-            <div class="section">
-                <span><strong>{{ item.date_created|date:"d.m.Y" }}</strong></span>
-                <p> {{ item.write_down }}</p>
-                <div class="write-donw-links">
-                    <ul>
-                        <li><a href="{% url 'journal:add/write-out' %}">Выписка</a></li>
-                        <li><a href="{% url 'journal:add/extra-write-out'%}">Доп. выписка</a></li>
-                        <li><a href="{% url 'journal:detail' item.id %}">Подробно</a></li>
-                    </ul>
-                </div>
+<div class="uk-section-xsmall uk-section-default">
+    <div class="uk-container">
+
+        <div class="uk-grid-match uk-child-width-expand" uk-grid>
+            <div>
+                <span><strong>{{ date|date:"d.m.Y" }}</strong></span>
+                <span>Деж.инж. <strong>Манжак Сергей Сергеевич</strong></span>
             </div>
-            {% endfor %}
-        {% else %}
-            <p>Нет записей</p>
-        {% endif %}
-    {% endblock %}
-    <script src="{% static 'js/uikit.min.js' %}"></script>
-    <script src="{% static 'js/uikit-icons.min.js' %}"></script>
+            <div>
+                <a class="uk-button uk-button-primary" href="{% url 'journal:add/write-down' %}">Добавить запись</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% block content %}
+
+<div class="uk-section-small uk-section-muted uk-preserve-color">
+    <div class="uk-container">
+
+        <div class="uk-grid-match uk-child-width-1-1" uk-grid>
+            {% if items.exists %}
+                {% for item in items %}
+                    <div>
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <span>{{ item.date_created|date:"d.m.Y" }}</span>
+                            <p>{{ item.write_down }}</p>
+                            <ul class="uk-subnav uk-subnav-pill" uk-margin>
+                                <li class="uk-active"><a href="{% url 'journal:add/write-out' %}">Выписка</a></li>
+                                <li><a href="{% url 'journal:add/extra-write-out' %}">Доп. выписка</a></li>
+                                <li><a href="{% url 'journal:detail' item.id %}">Подробно</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Нет записей</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+<script src="{% static 'js/uikit.min.js' %}"></script>
+<script src="{% static 'js/uikit-icons.min.js' %}"></script>
 </body>
 </html>

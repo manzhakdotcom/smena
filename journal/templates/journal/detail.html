@@ -1,19 +1,39 @@
 {% extends "index.html" %}
 {% block title %}Подробно{% endblock %}
 {% block content %}
-<div class="section">
-    <span>Запись</span>
-    <p><strong>{{write_down.date_created|date:"d.m.Y"}}</strong></p>
-    <p>{{write_down.write_down}}</p>
-</div>
-<div class="section">
-    <span>Выписка</span>
-    <p><strong>{{write_out.date_created|date:"d.m.Y"}}</strong></p>
-    <p>{{write_out.write_out}}</p>
-</div>
-<div class="section">
-    <span>Доп. выписка</span>
-    <p><strong>{{extra_write_out.date_created|date:"d.m.Y"}}</strong></p>
-    <p>{{extra_write_out.extra_write_out}}</p>
+<div class="uk-section uk-section-default uk-preserve-color">
+    <div class="uk-container">
+
+        <div class="uk-grid-match uk-child-width-1-1" uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <span>Запись</span>
+                    <span>{{write_down.date_created|date:"d.m.Y"}}</span>
+                    <p>{{write_down.write_down}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="uk-grid-match uk-child-width-1-1" uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <span>Выписка</span>
+                    <span>{{write_out.date_created|date:"d.m.Y"}}</span>
+                    <p>{{write_out.write_out}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="uk-grid-match uk-child-width-1-1" uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <span>Доп. выписка</span>
+                    <span>{{extra_write_out.date_created|date:"d.m.Y"}}</span>
+                    <p>{{extra_write_out.extra_write_out}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 {% endblock %}

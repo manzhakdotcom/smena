@@ -35,6 +35,7 @@ def write_down(request):
 
 def write_out(request):
     if request.method == 'GET':
+        form = WriteOutForm()
         data = {
             'form': form
         }
@@ -43,5 +44,8 @@ def write_out(request):
 
 def extra_write_out(request):
     if request.method == 'GET':
-        form = ExtraWriteOutForm
-        return render(request, 'journal/add/extra-write-out.html', {'form': form})
+        form = ExtraWriteOutForm()
+        data = {
+            'form': form
+        }
+        return render(request, 'journal/add/extra-write-out.html', data)

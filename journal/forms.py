@@ -14,11 +14,16 @@ class WriteOutForm(forms.ModelForm):
 
 
 class WriteDownForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(WriteDownForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = WriteDown
         fields = ('date_created', 'write_down')
         widgets = {
-            'date_created': forms.DateInput(attrs={'type': 'date'})
+            'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
+            'write_down': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }
 
 

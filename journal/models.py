@@ -19,7 +19,7 @@ class WriteOut(models.Model):
 
 class WriteDown(models.Model):
     date_created = models.DateField(verbose_name='Дата записи', default=timezone.now)
-    write_down = models.TextField(verbose_name='Запись', default='Запись...')
+    write_down = models.TextField(verbose_name='Текст записи', default='Запись...')
     delete = models.BooleanField(default=False, verbose_name='Удалена')
 
     def __str__(self):

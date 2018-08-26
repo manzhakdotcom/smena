@@ -1,12 +1,12 @@
 {% extends "index.html" %}
 {% block title %}Добавить запись{% endblock %}
 {% block content %}
-<p><strong>Запись</strong></p>
+<h3 class="uk-heading-bullet">Добавить запись</h3>
 <div>
   <form action="{% url 'journal:add/write-down' %}" method="POST">
       {% csrf_token %}
       {{ form.as_p }}
-      <input type="submit" value="Добавить" >
+      <input class="uk-button uk-button-primary" type="submit" value="Добавить" >
   </form>
 </div>
 {% endblock %}

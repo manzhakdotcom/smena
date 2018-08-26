@@ -1,31 +1,57 @@
 {% extends "index.html" %}
 {% block title %}Подробно{% endblock %}
 {% block content %}
-<div uk-grid>
-    <div class="uk-width-1-1">
-        <div class="uk-card uk-card-default uk-card-body">
-            <span>Запись</span>
-            <span>{{ write_down.date_created|date:"d.m.Y" }}</span>
-            <p>{{ write_down.write_down }}</p>
-        </div>
-    </div>
+<div class="uk-section-small uk-section-muted uk-preserve-color">
+    <div class="uk-container">
+        <div uk-grid>
 
-    <div class="uk-width-1-1">
-        <div class="uk-card uk-card-default uk-card-body">
-            <span>Выписка</span>
-            <span>{{ write_out.date_created|date:"d.m.Y" }}</span>
-            <p>{{ write_out.write_out }}</p>
-        </div>
-    </div>
+            <div class="uk-width-1-1">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <p class="uk-text-uppercase">Запись</p>
+                    <span class="uk-text-meta">{{ write_down.date_created|date:"d.m.Y" }}</span>
+                    <p>{{ write_down.write_down }}</p>
+                    <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                        <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
+                        <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                    </ul>
+                </div>
+            </div>
 
-    <div class="uk-width-1-1">
-        <div class="uk-card uk-card-default uk-card-body">
-            <span>Доп. выписка</span>
-            <span>{{ extra_write_out.date_created|date:"d.m.Y" }}</span>
-            <p>{{ extra_write_out.extra_write_out }}</p>
+            <div class="uk-width-1-1">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <p class="uk-text-uppercase">Выписка</p>
+                    {% if write_out %}
+                        <span class="uk-text-meta">{{ write_out.date_created|date:"d.m.Y" }}</span>
+                        <p>{{ write_out.write_out }}</p>
+                        <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                            <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
+                            <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                        </ul>
+                    {% else %}
+                        <p><a href="{% url 'journal:add/write-out' %}" class="uk-button uk-button-default">Добавить выписку</a></p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="uk-width-1-1">
+                <div class="uk-card uk-card-default uk-card-body">
+
+                    <p class="uk-text-uppercase">Доп. выписка</p>
+                    {% if extra_write_out %}
+                        <span class="uk-text-meta">{{ extra_write_out.date_created|date:"d.m.Y" }}</span>
+                        <p>{{ extra_write_out.extra_write_out }}</p>
+                        <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                            <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
+                            <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                        </ul>
+                    {% else %}
+                        <p><a href="{% url 'journal:add/extra-write-out' %}" class="uk-button uk-button-default">Добавить доп. выписку</a></p>
+                    {% endif %}
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-
 
 {% endblock %}

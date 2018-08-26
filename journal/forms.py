@@ -3,13 +3,16 @@ from journal.models import WriteOut, WriteDown, ExtraWriteOut
 
 
 class WriteOutForm(forms.ModelForm):
-    write_down = forms.ModelChoiceField(queryset=WriteDown.objects.all(), widget=forms.HiddenInput)
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(WriteOutForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = WriteOut
-        fields = ('date_created', 'write_out', 'write_down')
+        fields = ('date_created', 'write_out')
         widgets = {
-            'date_created': forms.DateInput(attrs={'type': 'date'})
+            'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
+            'write_out': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }
 
 
@@ -28,9 +31,14 @@ class WriteDownForm(forms.ModelForm):
 
 
 class ExtraWriteOutForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(ExtraWriteOutForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = ExtraWriteOut
         fields = ('date_created', 'extra_write_out')
         widgets = {
-            'date_created': forms.DateInput(attrs={'type': 'date'})
+            'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
+            'extra_write_out': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }

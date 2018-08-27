@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.urls import reverse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, Http404
 from django.utils import timezone
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
@@ -13,22 +14,23 @@ def index(request):
         date = timezone.now
         data = {
             'date': date,
-            'items': all_write_down,
+            'all_write_down': all_write_down,
         }
         return render(request, 'index.html', data)
     return HttpResponse(status=405)
 
 
-def detail(request, id):
+def detail(request, write_down_id):
     if request.method == 'GET':
         date = timezone.now
         data = {
             'date': date,
-            'write_down': WriteDown.objects.get(id=id),
-            'write_out': WriteOut.objects.filter(write_down_id=id).first(),
-            'extra_write_out': ExtraWriteOut.objects.filter(write_down_id=id).first(),
+            'write_down': WriteDown.objects.get(id=write_down_id),
+            'write_out': WriteOut.objects.filter(write_down_id=write_down_id).first(),
+            'extra_write_out': ExtraWriteOut.objects.filter(write_down_id=write_down_id).first(),
         }
         return render(request, 'journal/detail.html', data)
+    return HttpResponse(status=405)
 
 
 def write_down(request):
@@ -37,19 +39,27 @@ def write_down(request):
         return render(request, 'journal/add/write-down.html', {'form': form})
 
 
-def write_out(request):
+def write_out(request, write_down_id):
     if request.method == 'GET':
+        write_down = WriteDown.objects.select_related().filter(id=write_down_id).first()
+
+        if not write_down:
+            return redirect('index')
+
         form = WriteOutForm()
         data = {
+            'write_down': write_down,
             'form': form
         }
         return render(request, 'journal/add/write-out.html', data)
+    return HttpResponse(status=405)
 
 
-def extra_write_out(request):
+def extra_write_out(request, write_down_id):
     if request.method == 'GET':
         form = ExtraWriteOutForm()
         data = {
+            'write_down_id': write_down_id,
             'form': form
         }
         return render(request, 'journal/add/extra-write-out.html', data)

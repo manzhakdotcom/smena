@@ -30,9 +30,9 @@
                 <a href="#">Настройки</a>
                 <div class="uk-navbar-dropdown">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li class="uk-active"><a href="#">Active</a></li>
-                        <li><a href="#">Item</a></li>
-                        <li><a href="#">Item</a></li>
+                        <li><a href="#">Сотрудники</a></li>
+                        <li><a href="#">Диспетчерские круги</a></li>
+                        <li><a href="#">Разное</a></li>
                     </ul>
                 </div>
             </li>
@@ -57,40 +57,40 @@
                 <div class="uk-container">
 
                     <div class="uk-grid-match uk-child-width-1-1" uk-grid>
-                        {% if items.exists %}
-                            {% for item in items %}
+                        {% if all_write_down.exists %}
+                            {% for write_down in all_write_down %}
                                 <div>
                                     <div class="uk-card uk-card-default uk-card-body">
-                                        <span>{{ item.date_created|date:"d.m.Y" }}</span>
-                                        <p>{{ item.write_down }}</p>
+                                        <span>{{ write_down.date_created|date:"d.m.Y" }}</span>
+                                        <p>{{ write_down.text }}</p>
                                         <ul class="uk-subnav uk-subnav-divider" uk-margin>
                                             <li>
-                                                {% if item.is_write_out %}
+                                                {% if write_down.is_write_out %}
                                                     <spqn>
                                                         <span class="uk-margin-small-right uk-text-success" uk-icon="check"></span>
                                                         Выписка
                                                     </spqn>
                                                 {% else %}
-                                                    <a href="{% url 'journal:add/write-out' %}">
+                                                    <a href="{% url 'journal:add/write-out' write_down.id %}">
                                                         <span class="uk-margin-small-right" uk-icon="plus"></span>
                                                         Выписка
                                                      </a>
                                                 {% endif %}
                                             </li>
                                             <li>
-                                                {% if item.is_extra_write_out %}
+                                                {% if write_down.is_extra_write_out %}
                                                     <span>
                                                         <span class="uk-margin-small-right uk-text-success" uk-icon="check"></span>
                                                         Доп. выписка
                                                     </span>
                                                 {% else %}
-                                                    <a href="{% url 'journal:add/extra-write-out' %}">
+                                                    <a href="{% url 'journal:add/extra-write-out' write_down.id %}">
                                                         <span class="uk-margin-small-right" uk-icon="plus"></span>
                                                         Доп. выписка
                                                     </a>
                                                 {% endif %}
                                             </li>
-                                            <li><a href="{% url 'journal:detail' item.id %}"><span
+                                            <li><a href="{% url 'journal:detail' write_down.id %}"><span
                                                     class="uk-margin-small-right" uk-icon="list"></span>Подробно</a>
                                             </li>
                                         </ul>

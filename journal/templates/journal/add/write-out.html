@@ -4,11 +4,17 @@
     <div class="uk-section-small uk-section-muted uk-preserve-color">
         <div class="uk-container">
             <h4 class="uk-text-uppercase">Добавить выписку</h4>
+
+                        <div class="uk-card uk-card-default uk-card-body">
+                            <p class="uk-text-uppercase">Запись</p>
+                            <span class="uk-text-meta">{{ write_down.date_created|date:"d.m.Y" }}</span>
+                            <p>{{ write_down.text }}</p>
+                        </div>
             <div>
-                <form action="{% url 'journal:add/write-out' %}" method="POST">
+                <form action="{% url 'journal:add/write-out' write_down.id %}" method="POST">
                     {% csrf_token %}
                     {{ form.as_p }}
-                  <input class="uk-button uk-button-primary" type="submit" value="Добавить" >
+                    <input class="uk-button uk-button-primary" type="submit" value="Добавить">
                 </form>
             </div>
         </div>

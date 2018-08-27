@@ -9,10 +9,10 @@ class WriteOutForm(forms.ModelForm):
 
     class Meta:
         model = WriteOut
-        fields = ('date_created', 'write_out')
+        fields = ('date_created', 'text')
         widgets = {
             'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
-            'write_out': forms.Textarea(attrs={'class': 'uk-textarea'}),
+            'text': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }
 
 
@@ -23,10 +23,10 @@ class WriteDownForm(forms.ModelForm):
 
     class Meta:
         model = WriteDown
-        fields = ('date_created', 'write_down')
+        fields = ('date_created', 'text')
         widgets = {
             'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
-            'write_down': forms.Textarea(attrs={'class': 'uk-textarea'}),
+            'text': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }
 
 
@@ -37,8 +37,8 @@ class ExtraWriteOutForm(forms.ModelForm):
 
     class Meta:
         model = ExtraWriteOut
-        fields = ('date_created', 'extra_write_out')
+        fields = ('date_created', 'text')
         widgets = {
             'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
-            'extra_write_out': forms.Textarea(attrs={'class': 'uk-textarea'}),
+            'text': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }

@@ -9,7 +9,7 @@
                 <div class="uk-card uk-card-default uk-card-body">
                     <p class="uk-text-uppercase">Запись</p>
                     <span class="uk-text-meta">{{ write_down.date_created|date:"d.m.Y" }}</span>
-                    <p>{{ write_down.write_down }}</p>
+                    <p>{{ write_down.text }}</p>
                     <ul class="uk-subnav uk-subnav-divider" uk-margin>
                         <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
                         <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
@@ -22,13 +22,13 @@
                     <p class="uk-text-uppercase">Выписка</p>
                     {% if write_out %}
                         <span class="uk-text-meta">{{ write_out.date_created|date:"d.m.Y" }}</span>
-                        <p>{{ write_out.write_out }}</p>
+                        <p>{{ write_out.text }}</p>
                         <ul class="uk-subnav uk-subnav-divider" uk-margin>
                             <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
                             <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
                         </ul>
                     {% else %}
-                        <p><a href="{% url 'journal:add/write-out' %}" class="uk-button uk-button-default">Добавить выписку</a></p>
+                        <p><a href="{% url 'journal:add/write-out' write_down.id %}" class="uk-button uk-button-default">Добавить выписку</a></p>
                     {% endif %}
                 </div>
             </div>
@@ -39,13 +39,13 @@
                     <p class="uk-text-uppercase">Доп. выписка</p>
                     {% if extra_write_out %}
                         <span class="uk-text-meta">{{ extra_write_out.date_created|date:"d.m.Y" }}</span>
-                        <p>{{ extra_write_out.extra_write_out }}</p>
+                        <p>{{ extra_write_out.text }}</p>
                         <ul class="uk-subnav uk-subnav-divider" uk-margin>
                             <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
                             <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
                         </ul>
                     {% else %}
-                        <p><a href="{% url 'journal:add/extra-write-out' %}" class="uk-button uk-button-default">Добавить доп. выписку</a></p>
+                        <p><a href="{% url 'journal:add/extra-write-out' write_down.id %}" class="uk-button uk-button-default">Добавить доп. выписку</a></p>
                     {% endif %}
                 </div>
             </div>

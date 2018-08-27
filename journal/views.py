@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from django.utils import timezone
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
@@ -15,6 +16,7 @@ def index(request):
             'items': all_write_down,
         }
         return render(request, 'index.html', data)
+    return HttpResponse(status=405)
 
 
 def detail(request, id):

@@ -15,8 +15,8 @@
 
         <ul class="uk-navbar-nav">
             <li class="uk-active"><a href="{% url 'index' %}">Главная</a></li>
-            <li><a href="#">Архив</a></li>
-            <li><a href="#">Статистика</a></li>
+            <li><a href="{% url 'archive:index' %}">Архив</a></li>
+            <li><a href="{% url 'stats:index' %}">Статистика</a></li>
         </ul>
 
     </div>
@@ -25,14 +25,13 @@
 
         <ul class="uk-navbar-nav">
             <li><a href="#">Справка</a></li>
-            <li><a href="#">Помощь</a></li>
             <li>
                 <a href="#">Настройки</a>
                 <div class="uk-navbar-dropdown">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li><a href="#">Сотрудники</a></li>
-                        <li><a href="#">Диспетчерские круги</a></li>
-                        <li><a href="#">Разное</a></li>
+                        <li><a href="{% url 'stuff:index' %}">Сотрудники</a></li>
+                        <li><a href="{% url 'circle:index' %}">Диспетчерские круги</a></li>
+                        <li><a href="#">Помощь</a></li>
                     </ul>
                 </div>
             </li>
@@ -42,7 +41,12 @@
 </nav>
 
 <div class="uk-section-xsmall uk-section-default">
-
+    {% if alert == 'write_down_no' %}
+        <div class="uk-alert-danger" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>Такой записи не существует. Повторите еще раз.</p>
+        </div>
+    {% endif %}
     <div class="uk-text-left" uk-grid>
         <div class="uk-width-1-1 uk-margin-medium-left">
             <p>Записи СЦБ - <span class="uk-text-muted">с 08:00 25.08.2018 по 20:00 25.08.2018</span></p>
@@ -66,10 +70,10 @@
                                         <ul class="uk-subnav uk-subnav-divider" uk-margin>
                                             <li>
                                                 {% if write_down.is_write_out %}
-                                                    <spqn>
+                                                    <span>
                                                         <span class="uk-margin-small-right uk-text-success" uk-icon="check"></span>
                                                         Выписка
-                                                    </spqn>
+                                                    </span>
                                                 {% else %}
                                                     <a href="{% url 'journal:add/write-out' write_down.id %}">
                                                         <span class="uk-margin-small-right" uk-icon="plus"></span>
@@ -112,6 +116,7 @@
                 запись</a>
         </p>
         <div class="uk-card uk-card-default uk-card-body">
+            <a class="uk-button uk-button-danger uk-width-1-1" href="{% url 'duty:index' %}">Добавить дежурство</a>
             <h5 class="uk-text-uppercase">Дежурный</h5>
             <p class="uk-text-break">Манжак Сергей Сергеевич</p>
             <h5 class="uk-text-uppercase">Диспетчера</h5>
@@ -146,6 +151,8 @@
                     </div>
                 </li>
             </ul>
+            <a class="uk-button uk-button-default uk-button-small uk-width-1-1" href="{% url 'duty:index' %}"></span>Редактировать дежурство</a>
+
         </div>
     </div>
 

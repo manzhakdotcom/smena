@@ -19,6 +19,11 @@ from django.urls import path, include
 
 from journal.views import index
 from journal import urls as journal_urls
+from circle import urls as circle_urls
+from duty import urls as duty_urls
+from archive import urls as archive_urls
+from stuff import urls as stuff_urls
+from stats import urls as stats_urls
 
 urlpatterns = [
     #
@@ -27,4 +32,9 @@ urlpatterns = [
     path('', index, name='index'),
     # Add pages
     path('journal/', include(journal_urls, namespace='journal')),
+    path('circle/', include(circle_urls, namespace='circle')),
+    path('duty/', include(duty_urls, namespace='duty')),
+    path('archive/', include(archive_urls, namespace='archive')),
+    path('stuff/', include(stuff_urls, namespace='stuff')),
+    path('stats/', include(stats_urls, namespace='stats')),
 ]

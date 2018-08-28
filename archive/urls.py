@@ -1,8 +1,8 @@
 from django.urls import path
 
-from stuff.views import index
+from archive.views import index
 
-app_name = 'stuff'
+app_name = 'archive'
 urlpatterns = [
     path('', index, name='index'),
 ]

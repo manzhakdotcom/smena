@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.utils import timezone
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
@@ -13,6 +13,7 @@ def index(request):
         all_write_down = WriteDown.objects.all()
         date = timezone.now
         data = {
+            'alert': request.GET.get('alert', False),
             'date': date,
             'all_write_down': all_write_down,
         }
@@ -44,7 +45,7 @@ def write_out(request, write_down_id):
         write_down = WriteDown.objects.select_related().filter(id=write_down_id).first()
 
         if not write_down:
-            return redirect('index')
+            return HttpResponseRedirect('{}?alert=write_down_no'.format(reverse('index')))
 
         form = WriteOutForm()
         data = {

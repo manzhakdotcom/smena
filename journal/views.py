@@ -11,11 +11,26 @@ from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
 def index(request):
     if request.method == 'GET':
         all_write_down = WriteDown.objects.all()
+        all_write_out = WriteOut.objects.all()
+        all_extra_write_out = ExtraWriteOut.objects.all()
+
+        for write_down in all_write_down:
+            write_down.is_write_out = False
+            write_down.is_extra_write_out = False
+            for write_out in all_write_out:
+                if write_down.id == write_out.write_down_id:
+                    write_down.is_write_out = True
+            for extra_write_out in all_extra_write_out:
+                if write_down.id == extra_write_out.write_down_id:
+                    write_down.is_extra_write_out = True
+
         date = timezone.now
         data = {
             'alert': request.GET.get('alert', False),
             'date': date,
             'all_write_down': all_write_down,
+            'all_write_out': all_write_out,
+            'all_extra_write_out': all_extra_write_out,
         }
         return render(request, 'index.html', data)
     return HttpResponse(status=405)
@@ -43,11 +58,11 @@ def write_down(request):
 def write_out(request, write_down_id):
     if request.method == 'GET':
         write_down = WriteDown.objects.select_related().filter(id=write_down_id).first()
-
         if not write_down:
             return HttpResponseRedirect('{}?alert=write_down_no'.format(reverse('index')))
-
-        form = WriteOutForm()
+        form = WriteOutForm(initial={
+            'write_down': write_down
+        })
         data = {
             'write_down': write_down,
             'form': form
@@ -58,9 +73,14 @@ def write_out(request, write_down_id):
 
 def extra_write_out(request, write_down_id):
     if request.method == 'GET':
-        form = ExtraWriteOutForm()
+        write_down = WriteDown.objects.select_related().filter(id=write_down_id).first()
+        if not write_down:
+            return HttpResponseRedirect('{}?alert=write_down_no'.format(reverse('index')))
+        form = ExtraWriteOutForm(initial={
+            'write_down': write_down
+        })
         data = {
-            'write_down_id': write_down_id,
+            'write_down': write_down,
             'form': form
         }
         return render(request, 'journal/add/extra-write-out.html', data)

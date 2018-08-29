@@ -6,8 +6,6 @@ from django.utils import timezone
 class WriteDown(models.Model):
     date_created = models.DateField(verbose_name='Дата записи', default=timezone.now)
     text = models.TextField(verbose_name='Текст записи', default='Запись...')
-    is_write_out = models.BooleanField(default=False, verbose_name='Выписка')
-    is_extra_write_out = models.BooleanField(default=False, verbose_name='Доп. выписка')
     delete = models.BooleanField(default=False, verbose_name='Удалена')
 
     def __str__(self):

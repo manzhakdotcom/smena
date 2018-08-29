@@ -1,16 +1,14 @@
 {% extends "index.html" %}
 {% block title %}Добавить запись{% endblock %}
 {% block content %}
-    <div class="uk-section-small uk-section-muted uk-preserve-color">
-        <div class="uk-container">
-            <h4 class="uk-text-uppercase">Добавить запись</h4>
-            <div>
-              <form action="{% url 'journal:add/write-down' %}" method="POST">
-                  {% csrf_token %}
-                  {{ form.as_p }}
-                  <input class="uk-button uk-button-primary" type="submit" value="Добавить" >
-              </form>
-            </div>
+    <div class="uk-section-small uk-padding-remove-top">
+        <h4 class="uk-text-uppercase">Добавить запись</h4>
+        <div class="uk-card uk-card-default uk-card-body">
+            <form action="{% url 'journal:add/write-down' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="uk-button uk-button-primary" type="submit" value="Добавить" >
+            </form>
         </div>
     </div>
 {% endblock %}

@@ -1,11 +1,11 @@
 {% extends "index.html" %}
 {% block title %}Подробно{% endblock %}
 {% block content %}
-<div class="uk-section-small uk-section-muted uk-preserve-color">
+<div class="uk-section-small uk-padding-remove-top">
     <div class="uk-container">
-        <div uk-grid>
 
-            <div class="uk-width-1-1">
+
+            <div class="uk-section-small uk-padding-remove-top">
                 <div class="uk-card uk-card-default uk-card-body">
                     <p class="uk-text-uppercase">Запись</p>
                     <span class="uk-text-meta">{{ write_down.date_created|date:"d.m.Y" }}</span>
@@ -15,9 +15,10 @@
                         <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
                     </ul>
                 </div>
-            </div>
+                </div>
 
-            <div class="uk-width-1-1">
+
+                <div class="uk-section-small uk-padding-remove-top">
                 <div class="uk-card uk-card-default uk-card-body">
                     <p class="uk-text-uppercase">Выписка</p>
                     {% if write_out %}
@@ -31,9 +32,10 @@
                         <p><a href="{% url 'journal:add/write-out' write_down.id %}" class="uk-button uk-button-default">Добавить выписку</a></p>
                     {% endif %}
                 </div>
-            </div>
+                </div>
 
-            <div class="uk-width-1-1">
+
+                <div class="uk-section-small uk-padding-remove-top">
                 <div class="uk-card uk-card-default uk-card-body">
 
                     <p class="uk-text-uppercase">Доп. выписка</p>
@@ -48,9 +50,10 @@
                         <p><a href="{% url 'journal:add/extra-write-out' write_down.id %}" class="uk-button uk-button-default">Добавить доп. выписку</a></p>
                     {% endif %}
                 </div>
-            </div>
+                </div>
 
-        </div>
+
+
     </div>
 </div>
 

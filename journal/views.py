@@ -1,36 +1,22 @@
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
+from journal.utils import set_properties_to_write_down
 
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
-        all_write_down = WriteDown.objects.all()
-        all_write_out = WriteOut.objects.all()
-        all_extra_write_out = ExtraWriteOut.objects.all()
-
-        for write_down in all_write_down:
-            write_down.is_write_out = False
-            write_down.is_extra_write_out = False
-            for write_out in all_write_out:
-                if write_down.id == write_out.write_down_id:
-                    write_down.is_write_out = True
-            for extra_write_out in all_extra_write_out:
-                if write_down.id == extra_write_out.write_down_id:
-                    write_down.is_extra_write_out = True
-
+        all_write_down = set_properties_to_write_down()
         date = timezone.now
         data = {
             'alert': request.GET.get('alert', False),
             'date': date,
             'all_write_down': all_write_down,
-            'all_write_out': all_write_out,
-            'all_extra_write_out': all_extra_write_out,
         }
         return render(request, 'index.html', data)
     return HttpResponse(status=405)
@@ -53,6 +39,18 @@ def write_down(request):
     if request.method == 'GET':
         form = WriteDownForm()
         return render(request, 'journal/add/write-down.html', {'form': form})
+    elif request.method == 'POST':
+        form = WriteDownForm(request.POST)
+        if form.is_valid():
+            write_down = form.save()
+            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': write_down.pk}))
+        else:
+            data = {
+                'write_down': write_down,
+                'form': form
+            }
+            return render(request, 'journal/add/write-down.html', data)
+    return HttpResponse(status=405)
 
 
 def write_out(request, write_down_id):
@@ -68,6 +66,19 @@ def write_out(request, write_down_id):
             'form': form
         }
         return render(request, 'journal/add/write-out.html', data)
+    elif request.method == 'POST':
+        form = WriteOutForm(request.POST)
+
+        if form.is_valid():
+            write_out = form.save()
+            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
+        else:
+            data = {
+                'write_down': write_down,
+                'form': form
+            }
+            return render(request, 'journal/add/write-out.html', data)
+    
     return HttpResponse(status=405)
 
 

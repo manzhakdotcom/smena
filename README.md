@@ -1,4 +1,4 @@
-# Introduction
+# ❤ Introduction
 Smena is simple django application for keeping a log of duties.
 ## 💾 Installation
 

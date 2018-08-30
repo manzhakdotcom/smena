@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'journal',
     'archive',
     'circle',
-    'stuff',
+    'staff',
     'stats',
     'duty',
 ]

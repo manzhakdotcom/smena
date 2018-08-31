@@ -5,17 +5,17 @@ from django.utils import timezone
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
-from journal.utils import set_properties_to_write_down
+from journal.utils import set_properties_to_write_down, get_duty_time
 
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
         all_write_down = set_properties_to_write_down()
-        date = timezone.now
+        
         data = {
             'alert': request.GET.get('alert', False),
-            'date': date,
+            'duty_time': get_duty_time(),
             'all_write_down': all_write_down,
         }
         return render(request, 'index.html', data)
@@ -95,3 +95,17 @@ def extra_write_out(request, write_down_id):
             'form': form
         }
         return render(request, 'journal/add/extra-write-out.html', data)
+    elif request.method == 'POST':
+        form = ExtraWriteOutForm(request.POST)
+
+        if form.is_valid():
+            extra_write_out = form.save()
+            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
+        else:
+            data = {
+                'write_down': write_down,
+                'form': form
+            }
+            return render(request, 'journal/add/extra-write-out.html', data)
+    
+    return HttpResponse(status=405)

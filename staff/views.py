@@ -6,5 +6,5 @@ from django.http import HttpResponse
 def index(request):
     if request.method == 'GET':
         data = {}
-        return render(request, 'stuff/index.html', data)
+        return render(request, 'staff/index.html', data)
     return HttpResponse(status=405)

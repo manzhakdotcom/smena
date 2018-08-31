@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 
 
@@ -17,3 +19,11 @@ def set_properties_to_write_down():
                     write_down.is_extra_write_out = True
     
     return all_write_down
+
+def get_duty_time():
+    dt_now = datetime.now()
+    dt_08_00 = datetime(dt_now.year, dt_now.month, dt_now.day, 8)
+    dt_20_00 = datetime(dt_now.year, dt_now.month, dt_now.day, 20)
+
+    if dt_20_00 > dt_now > dt_08_00:
+        return 'Записи СЦБ - с 08:00 {}.{}.{} по 20:00 {}.{}.{}'.format(dt_now.day, dt_now.month, dt_now.year, dt_now.day, dt_now.month, dt_now.year)

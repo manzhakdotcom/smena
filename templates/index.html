@@ -15,7 +15,8 @@
     <div class="uk-container uk-container-small">
         <nav class="uk-navbar" uk-navbar>
             <div class="uk-navbar-left">
-                <a class="uk-navbar-item uk-logo" href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" alt="Смена"></a>
+                <a class="uk-navbar-item uk-logo" href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}"
+                                                                                alt="Смена"></a>
                 <ul class="uk-navbar-nav">
                     <li><a href="{% url 'index' %}">Главная</a></li>
                     <li><a href="{% url 'archive:index' %}">Архив</a></li>
@@ -43,66 +44,66 @@
 </div>
 
 <div class="uk-container uk-container-small">
+        {% if alert == 'write_down_no' %}
 
-    <div class="uk-section-xsmall">
-    {% if alert == 'write_down_no' %}
-        <div class="uk-alert-danger" uk-alert>
-            <a class="uk-alert-close" uk-close></a>
-            <p>Такой записи нет. Выберите существующую запись и повторите попытку.</p>
-        </div>
-    {% endif %}
-    <p class="uk-margin-remove-bottom">{{duty_time}}</span></p>
-    <p class="uk-margin-remove-bottom">Записи СЦБ - <span class="uk-text-muted">с 08:00 25.08.2018 по 20:00 25.08.2018</span></p>
+    <div class="uk-section-xsmall uk-padding-remove-bottom">
+            <div class="uk-alert-danger uk-margin-remove-bottom" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>Такой записи нет. Выберите существующую запись и повторите попытку.</p>
+            </div>
     </div>
+        {% endif %}
 
-    <div class="uk-section-xsmall">
+    <div class="uk-section-small">
         <div uk-grid>
             <div class="uk-width-2-3">
                 {% block content %}
-
-                            {% if all_write_down.exists %}
-                                {% for write_down in all_write_down %}
-                                    <div class="uk-section-small uk-padding-remove-top">
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <span>{{ write_down.date_created|date:"d.m.Y" }}</span>
-                                            <p>{{ write_down.text }}</p>
-                                            <ul class="uk-subnav uk-subnav-divider" uk-margin>
-                                                <li>
-                                                    {% if write_down.is_write_out %}
-                                                        <span>
-                                                            <span class="uk-margin-small-right uk-text-success" uk-icon="check"></span>
+                    <p>Записи СЦБ - <span class="uk-text-muted">{{ duty_time }}</span></p>
+                    {% if all_write_down.exists %}
+                        {% for write_down in all_write_down %}
+                            <div class="uk-section-small uk-padding-remove-top">
+                                <div class="uk-card uk-card-default uk-card-body">
+                                    <span>{{ write_down.date_created|date:"d.m.Y" }}</span>
+                                    <p>{{ write_down.text }}</p>
+                                    <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                                        <li>
+                                            {% if write_down.is_write_out %}
+                                                <span>
+                                                            <span class="uk-margin-small-right uk-text-success"
+                                                                  uk-icon="check"></span>
                                                             Выписка
                                                         </span>
-                                                    {% else %}
-                                                        <a href="{% url 'journal:add/write-out' write_down.id %}">
-                                                            <span class="uk-margin-small-right" uk-icon="plus"></span>
-                                                            Выписка
-                                                        </a>
-                                                    {% endif %}
-                                                </li>
-                                                <li>
-                                                    {% if write_down.is_extra_write_out %}
-                                                        <span>
-                                                            <span class="uk-margin-small-right uk-text-success" uk-icon="check"></span>
+                                            {% else %}
+                                                <a href="{% url 'journal:add/write-out' write_down.id %}">
+                                                    <span class="uk-margin-small-right" uk-icon="plus"></span>
+                                                    Выписка
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                        <li>
+                                            {% if write_down.is_extra_write_out %}
+                                                <span>
+                                                            <span class="uk-margin-small-right uk-text-success"
+                                                                  uk-icon="check"></span>
                                                             Доп. выписка
                                                         </span>
-                                                    {% else %}
-                                                        <a href="{% url 'journal:add/extra-write-out' write_down.id %}">
-                                                            <span class="uk-margin-small-right" uk-icon="plus"></span>
-                                                            Доп. выписка
-                                                        </a>
-                                                    {% endif %}
-                                                </li>
-                                                <li><a href="{% url 'journal:detail' write_down.id %}"><span
-                                                        class="uk-margin-small-right" uk-icon="list"></span>Подробно</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <p>Нет записей</p>
-                            {% endif %}
+                                            {% else %}
+                                                <a href="{% url 'journal:add/extra-write-out' write_down.id %}">
+                                                    <span class="uk-margin-small-right" uk-icon="plus"></span>
+                                                    Доп. выписка
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                        <li><a href="{% url 'journal:detail' write_down.id %}"><span
+                                                class="uk-margin-small-right" uk-icon="list"></span>Подробно</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Нет записей</p>
+                    {% endif %}
 
                 {% endblock %}
             </div>
@@ -112,38 +113,43 @@
                         запись</a>
                 </p>
                 <div class="uk-card uk-card-default uk-card-body">
-                    <a class="uk-button uk-button-danger uk-width-1-1 uk-padding-remove" href="{% url 'duty:index' %}">Добавить дежурство</a>
+                    <a class="uk-button uk-button-danger uk-width-1-1 uk-padding-remove" href="{% url 'duty:index' %}">Добавить
+                        дежурство</a>
                     <h5 class="uk-text-uppercase">Дежурный</h5>
                     <p class="uk-text-break">Манжак Сергей Сергеевич</p>
                     <h5 class="uk-text-uppercase">Диспетчера</h5>
                     <ul class="uk-list uk-list-divider">
                         <li>
                             <p class="uk-margin-remove-bottom uk-text-break">Мохань Владимир Владимирович</p>
-                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span class="uk-margin-small-right"
-                                                                                                uk-icon="icon: receiver; ratio: 0.8"
-                                                                                                uk-tooltip="тел. 225-96-95"></span>Минск-Брест
+                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span
+                                    class="uk-margin-small-right"
+                                    uk-icon="icon: receiver; ratio: 0.8"
+                                    uk-tooltip="тел. 225-96-95"></span>Минск-Брест
                             </div>
                         </li>
                         <li>
                             <p class="uk-margin-remove-bottom uk-text-break">Мохань Владимир Владимирович</p>
-                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span class="uk-margin-small-right"
-                                                                                                uk-icon="icon: receiver; ratio: 0.8"
-                                                                                                uk-tooltip="тел. 225-96-95"></span>Молодечно-Осиповичи
+                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span
+                                    class="uk-margin-small-right"
+                                    uk-icon="icon: receiver; ratio: 0.8"
+                                    uk-tooltip="тел. 225-96-95"></span>Молодечно-Осиповичи
                             </div>
                         </li>
                         <li>
                             <p class="uk-margin-remove-bottom uk-text-break">Мохань Владимир Владимирович</p>
-                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span class="uk-margin-small-right"
-                                                                                                uk-icon="icon: receiver; ratio: 0.8"
-                                                                                                uk-tooltip="тел. 225-96-95"></span>Барановичский
+                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span
+                                    class="uk-margin-small-right"
+                                    uk-icon="icon: receiver; ratio: 0.8"
+                                    uk-tooltip="тел. 225-96-95"></span>Барановичский
                                 узел
                             </div>
                         </li>
                         <li>
                             <p class="uk-margin-remove-bottom uk-text-break">Мохань Владимир Владимирович</p>
-                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span class="uk-margin-small-right"
-                                                                                                uk-icon="icon: receiver; ratio: 0.8"
-                                                                                                uk-tooltip="тел. 225-96-95"></span>Алеща-Полоцк-Крулевщизна-Полоцк
+                            <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span
+                                    class="uk-margin-small-right"
+                                    uk-icon="icon: receiver; ratio: 0.8"
+                                    uk-tooltip="тел. 225-96-95"></span>Алеща-Полоцк-Крулевщизна-Полоцк
                             </div>
                         </li>
                     </ul>

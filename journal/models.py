@@ -4,12 +4,15 @@ from django.utils import timezone
 
 
 class WriteDown(models.Model):
-    date_created = models.DateField(verbose_name='Дата записи', default=timezone.now)
-    text = models.TextField(verbose_name='Текст записи', default='Запись...')
-    delete = models.BooleanField(default=False, verbose_name='Удалена')
+    date = models.DateField(verbose_name='Дата записи')
+    time = models.TimeField(verbose_name='Время записи')
+    text = models.TextField(verbose_name='Текст записи')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    is_published = models.BooleanField(verbose_name='Опубликована', default=True)
 
     def __str__(self):
-        return '{}'.format(self.date_created)
+        return '{}'.format(self.date)
 
     class Meta:
         verbose_name = 'Запись СЦБ'

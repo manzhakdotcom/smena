@@ -21,22 +21,23 @@
                     <li><a href="{% url 'index' %}">Главная</a></li>
                     <li><a href="{% url 'archive:index' %}">Архив</a></li>
                     <li><a href="{% url 'stats:index' %}">Статистика</a></li>
+                    
                 </ul>
             </div>
 
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav">
-                    <li><a href="#">Справка</a></li>
                     <li>
-                        <a href="#">Настройки</a>
-                        <div class="uk-navbar-dropdown">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li><a href="{% url 'staff:index' %}">Сотрудники</a></li>
-                                <li><a href="{% url 'circle:index' %}">Диспетчерские круги</a></li>
-                                <li><a href="#">Помощь</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                            <a href="#">Справка</a>
+                            <div class="uk-navbar-dropdown">
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                        <li><a href="{% url 'staff:index' %}">Сотрудники</a></li>
+                                        <li><a href="{% url 'station:index' %}">Станции</a></li>
+                                        <li><a href="#">Помощь</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    
                 </ul>
             </div>
         </nav>
@@ -63,7 +64,7 @@
                         {% for write_down in all_write_down %}
                             <div class="uk-section-small uk-padding-remove-top">
                                 <div class="uk-card uk-card-default uk-card-body">
-                                    <span>{{ write_down.date_created|date:"d.m.Y" }}</span>
+                                    <span>{{ write_down.date|date:"d.m.Y" }} в {{ write_down.time|time:"H:i" }}</span>
                                     <p>{{ write_down.text }}</p>
                                     <ul class="uk-subnav uk-subnav-divider" uk-margin>
                                         <li>

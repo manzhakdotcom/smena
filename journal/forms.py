@@ -25,9 +25,10 @@ class WriteDownForm(forms.ModelForm):
 
     class Meta:
         model = WriteDown
-        fields = ('date_created', 'text')
+        fields = ('date', 'time', 'text')
         widgets = {
-            'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
+            'time': forms.TimeInput(attrs={'type': 'time', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
             'text': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }
 
@@ -37,6 +38,7 @@ class ExtraWriteOutForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(ExtraWriteOutForm, self).__init__(*args, **kwargs)
     write_down = forms.ModelChoiceField(queryset=WriteDown.objects.all(), widget=forms.HiddenInput)
+    
     class Meta:
         model = ExtraWriteOut
         fields = ('write_down', 'date_created', 'text')

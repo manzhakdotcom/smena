@@ -6,7 +6,7 @@ from journal.models import WriteOut, WriteDown, ExtraWriteOut
 
 @admin.register(WriteOut)
 class WriteOutAdmin(admin.ModelAdmin):
-    list_dispalay = ['date_created']
+    list_dispalay = ['date']
 
 
 @admin.register(WriteDown)

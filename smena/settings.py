@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'journal',
     'archive',
-    'circle',
+    'station',
     'staff',
     'stats',
     'duty',

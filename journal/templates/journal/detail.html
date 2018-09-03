@@ -8,7 +8,7 @@
             <div class="uk-section-small uk-padding-remove-top">
                 <div class="uk-card uk-card-default uk-card-body">
                     <p class="uk-text-uppercase">Запись</p>
-                    <span class="uk-text-meta">{{ write_down.date_created|date:"d.m.Y" }}</span>
+                    <span class="uk-text-meta">{{ write_down.date|date:"d.m.Y" }} в {{ write_down.time|time:"H:i" }}</span>
                     <p>{{ write_down.text }}</p>
                     <ul class="uk-subnav uk-subnav-divider" uk-margin>
                         <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>

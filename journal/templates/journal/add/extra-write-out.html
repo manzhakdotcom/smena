@@ -5,7 +5,7 @@
             <h4 class="uk-text-uppercase">Добавить доп. выписку</h4>
             <div class="uk-card uk-card-default uk-card-body uk-margin-medium-bottom">
                 <p class="uk-text-uppercase">Запись</p>
-                <span class="uk-text-meta">{{ write_down.date_created|date:"d.m.Y" }}</span>
+                <span class="uk-text-meta">{{ write_down.date|date:"d.m.Y" }} в {{ write_down.time|time:"H:i" }}</span>
                 <p>{{ write_down.text }}</p>
             </div>
             <div class="uk-card uk-card-default uk-card-body">

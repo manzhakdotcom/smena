@@ -8,7 +8,7 @@ from station.models import Station
 def index(request):
     if request.method == 'GET':
         data = {
-            'stations': Station.objects.all().order_by('circle__name')
+            'stations': Station.objects.all().order_by('circle__name', 'name')
         }
         return render(request, 'station/index.html', data)
     return HttpResponse(status=405)

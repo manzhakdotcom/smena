@@ -11,9 +11,9 @@ class WriteOutAdmin(admin.ModelAdmin):
 
 @admin.register(WriteDown)
 class WriteDownAdmin(admin.ModelAdmin):
-    list_dispalay = ['date_created']
+    list_dispalay = ['date']
 
 
 @admin.register(ExtraWriteOut)
 class ExtraWriteOutAdmin(admin.ModelAdmin):
-    list_dispalay = ['date_created']
+    list_dispalay = ['date']

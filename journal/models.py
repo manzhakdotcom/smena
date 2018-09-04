@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 # Create your models here.
 
 
@@ -20,13 +19,16 @@ class WriteDown(models.Model):
 
 
 class WriteOut(models.Model):
-    date_created = models.DateField(verbose_name='Дата выписки', default=timezone.now)
-    text = models.TextField(verbose_name='Текст выписки', default='Выписка...')
-    write_down = models.ForeignKey('WriteDown', on_delete=models.CASCADE, verbose_name='Запись')
-    delete = models.BooleanField(default=False, verbose_name='Удалена')
+    date = models.DateField(verbose_name='Дата выписки')
+    time = models.TimeField(verbose_name='Время выписки')
+    text = models.TextField(verbose_name='Текст выписки')
+    write_down = models.ForeignKey(WriteDown, on_delete=models.CASCADE, verbose_name='Запись')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    is_published = models.BooleanField(verbose_name='Опубликована', default=True)
 
     def __str__(self):
-        return '{}'.format(self.date_created)
+        return '{}'.format(self.date)
 
     class Meta:
         verbose_name = 'Выписка СЦБ'
@@ -34,13 +36,16 @@ class WriteOut(models.Model):
 
 
 class ExtraWriteOut(models.Model):
-    date_created = models.DateField(verbose_name='Дата доп. выписки', default=timezone.now)
-    text = models.TextField(verbose_name='Текст доп. выписки', default='Доп. выписка...')
+    date = models.DateField(verbose_name='Дата доп. выписки')
+    time = models.TimeField(verbose_name='Время доп. выписки')
+    text = models.TextField(verbose_name='Текст доп. выписки')
     write_down = models.ForeignKey('WriteDown', on_delete=models.CASCADE, verbose_name='Запись')
-    delete = models.BooleanField(default=False, verbose_name='Удалена')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    is_published = models.BooleanField(verbose_name='Опубликована', default=True)
 
     def __str__(self):
-        return '{}'.format(self.date_created)
+        return '{}'.format(self.date)
 
     class Meta:
         verbose_name = 'Доп. выписка СЦБ'

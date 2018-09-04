@@ -6,14 +6,14 @@ from staff.models import Organization, Position, Employee
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
-    list_dispalay = ['abbr', 'name']
+    list_display = ['abbr', 'name']
 
 
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
-    list_dispalay = ['name']
+    list_display = ['name']
 
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_dispalay = ['surname', 'organization']
+    list_display = ['surname', 'organization']

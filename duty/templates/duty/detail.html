@@ -9,7 +9,12 @@
             </tr>
         </thead>
         <tbody>
-
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee }}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

@@ -1,7 +1,5 @@
-import ast
-
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 
 from duty.forms import DutyForm
@@ -18,12 +16,9 @@ def index(request):
     elif request.method == 'POST':
         form = DutyForm(request.POST)
         if form.is_valid():
-            duty_employees = {}
-            for field in form:
-                duty_employees.update({field.html_name: field.data})
-            duty = Duty(date=timezone.now(), duty_employees=duty_employees)
+            duty = Duty(date=timezone.now(), duty_employees=form.cleaned_data)
             duty.save()
-            return render(request, 'staff/index.html')
+            return HttpResponseRedirect('/')
         else:
             data = {
                 'form': form
@@ -33,11 +28,10 @@ def index(request):
 
 
 def detail(request):
+    duty = Duty.objects.all().last()
     if request.method == 'GET':
-        duty = Duty.objects.all()[0]
-        employees = ast.literal_eval(duty.duty_employees)
         data = {
-            'dutys': Duty.objects.all()[0]
+            'employees': duty.duty_employees,
         }
         return render(request, 'duty/detail.html', data)
     return HttpResponse(status=405)

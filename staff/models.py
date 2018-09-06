@@ -26,6 +26,17 @@ class Position(models.Model):
         verbose_name_plural = 'Должности'
 
 
+class Workplace(models.Model):
+    name = models.CharField(max_length=128, verbose_name='Рабочее место')
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name = 'Рабочее место'
+        verbose_name_plural = 'Рабочие места'
+
+
 class Employee(models.Model):
     surname = models.CharField(max_length=128, verbose_name='Фамилия')
     name = models.CharField(max_length=128, verbose_name='Имя')

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from staff.models import Organization, Position, Employee
+from staff.models import Organization, Position, Employee, Workplace
 
 # Register your models here.
 
@@ -17,3 +17,8 @@ class PositionAdmin(admin.ModelAdmin):
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ['surname', 'organization']
+
+
+@admin.register(Workplace)
+class WorkplaceAdmin(admin.ModelAdmin):
+    list_display = ['name']

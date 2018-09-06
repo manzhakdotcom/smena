@@ -7,4 +7,17 @@ from staff.models import Employee
 
 class Duty(models.Model):
     date = models.DateTimeField(verbose_name='Дата дежурства')
-    duty_employees = models.CharField(max_length=128, verbose_name='Дежурный персонал')
+
+
+class DutyStaff(models.Model):
+    duty = models.OneToOneField(
+        Duty,
+        primary_key=True,
+        on_delete=models.CASCADE,
+    )
+    employee = models.ForeignKey(
+        Employee,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )

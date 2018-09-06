@@ -34,7 +34,7 @@ class Employee(models.Model):
     organization = models.ForeignKey(Organization, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Организация')
 
     def __str__(self):
-        return self.surname
+        return str(self.surname) + ' ' + str(self.name)[0] + '. ' + str(self.patronymic)[0] + '.'
 
     class Meta:
         verbose_name = 'Сотрудник'

@@ -1,7 +1,6 @@
 from django import forms
 
-from station.models import Circle
-from staff.models import Employee
+from staff.models import Employee, Workplace
 
 
 class DutyForm(forms.Form):
@@ -10,12 +9,20 @@ class DutyForm(forms.Form):
         kwargs.setdefault('label_suffix', '')
         super(DutyForm, self).__init__(*args, **kwargs)
 
-        self.fields['circle_0'] = forms.ModelChoiceField(queryset=Employee.objects.filter(organization__abbr='КТЦ'), label='Дежурный инженер КТЦ')
-        self.fields['circle_0'].widget.attrs.update({
+        workplaces = Workplace.objects.filter(organization__abbr='КТЦ')
+        for workplace in workplaces:
+            self.fields[str(workplace.id)] = forms.ModelChoiceField(
+                queryset=Employee.objects.filter(organization__abbr='КТЦ'),
+                label=str(workplace.name)
+            )
+            self.fields[str(workplace.id)].widget.attrs.update({
             'class': 'uk-select uk-form-width-medium uk-display-block'})
 
-        circles = Circle.objects.all()
-        for circle in circles:
-            self.fields['circle_%s' % circle.id] = forms.ModelChoiceField(queryset=Employee.objects.filter(organization__abbr='ЦУП'), label='Диспетчер (' + str(circle.name) + ')')
-            self.fields['circle_%s' % circle.id].widget.attrs.update({
+        workplaces = Workplace.objects.filter(organization__abbr='ЦУП')
+        for workplace in workplaces:
+            self.fields[str(workplace.id)] = forms.ModelChoiceField(
+                queryset=Employee.objects.filter(organization__abbr='ЦУП'),
+                label=str(workplace.name)
+            )
+            self.fields[str(workplace.id)].widget.attrs.update({
             'class': 'uk-select uk-form-width-medium uk-display-block'})

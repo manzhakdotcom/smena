@@ -28,6 +28,8 @@ class Position(models.Model):
 
 class Workplace(models.Model):
     name = models.CharField(max_length=128, verbose_name='Рабочее место')
+    organization = models.ForeignKey(Organization, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Организация')
+    telefon = models.CharField(max_length=128, verbose_name='Телефон', help_text='Укажите номер в формате 111-11-11')
 
     def __str__(self):
         return str(self.name)

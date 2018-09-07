@@ -5,14 +5,14 @@
         <thead>
             <tr>
                 <th>Фамилия</th>
-                <th>Диспетчерский круг</th>
+                <th>Рабочее место</th>
             </tr>
         </thead>
         <tbody>
             {% for employee in employees %}
                 <tr>
-                    <td>{{ employee }}</td>
-                    <td></td>
+                    <td>{{ employee.employee }}</td>
+                    <td>{{ employee.workplace }}</td>
                 </tr>
             {% endfor %}
         </tbody>

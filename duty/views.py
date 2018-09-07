@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 
 from duty.forms import DutyForm
-from duty.models import Duty
+from duty.models import Duty, DutyStaff
+from staff.models import Employee, Workplace
 
 
 # Create your views here.
@@ -16,8 +18,14 @@ def index(request):
     elif request.method == 'POST':
         form = DutyForm(request.POST)
         if form.is_valid():
-            duty = Duty(date=timezone.now(), duty_employees=form.cleaned_data)
-            duty.save()
+            with transaction.atomic():
+                duty = Duty(date=timezone.now())
+                duty.save()
+                for key, value in form.cleaned_data.items():
+                    employee = Employee.objects.get(id=value.pk)
+                    workplace = Workplace.objects.get(id=int(key))
+                    duty_staff = DutyStaff(duty=duty, employee=employee, workplace=workplace)
+                    duty_staff.save()
             return HttpResponseRedirect('/')
         else:
             data = {
@@ -28,10 +36,11 @@ def index(request):
 
 
 def detail(request):
-    duty = Duty.objects.all().last()
     if request.method == 'GET':
+        duty = Duty.objects.all().last()
+        duty_staff = DutyStaff.objects.filter(duty=duty.pk)
         data = {
-            'employees': duty.duty_employees,
+            'employees': duty_staff,
         }
         return render(request, 'duty/detail.html', data)
     return HttpResponse(status=405)

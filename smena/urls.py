@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-
 from journal.views import index
 from journal import urls as journal_urls
 from station import urls as station_urls

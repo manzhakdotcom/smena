@@ -1,21 +1,21 @@
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.utils import timezone
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
 from journal.utils import set_properties_to_write_down, get_duty_time
+from duty.models import Duty, DutyStaff
 
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
-        all_write_down = set_properties_to_write_down()
         data = {
             'alert': request.GET.get('alert', False),
             'duty_time': get_duty_time(),
-            'all_write_down': all_write_down,
+            'all_write_down': set_properties_to_write_down(),
+            'duty': DutyStaff.objects.filter(duty=Duty.objects.all().last().pk).order_by('employee__organization__abbr')
         }
         return render(request, 'index.html', data)
     return HttpResponse(status=405)
@@ -27,6 +27,7 @@ def detail(request, write_down_id):
             'write_down': WriteDown.objects.get(id=write_down_id),
             'write_out': WriteOut.objects.filter(write_down_id=write_down_id).first(),
             'extra_write_out': ExtraWriteOut.objects.filter(write_down_id=write_down_id).first(),
+            'duty': DutyStaff.objects.filter(duty=Duty.objects.all().last().pk).order_by('employee__organization__abbr')
         }
         return render(request, 'journal/detail.html', data)
     return HttpResponse(status=405)

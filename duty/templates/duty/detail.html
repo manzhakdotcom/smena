@@ -6,6 +6,7 @@
             <tr>
                 <th>Фамилия</th>
                 <th>Рабочее место</th>
+                <th>Телефон</th>
             </tr>
         </thead>
         <tbody>
@@ -13,6 +14,7 @@
                 <tr>
                     <td>{{ employee.employee }}</td>
                     <td>{{ employee.workplace }}</td>
+                    <td>{{ employee.workplace.telefon }}</td>
                 </tr>
             {% endfor %}
         </tbody>

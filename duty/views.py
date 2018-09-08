@@ -37,10 +37,7 @@ def index(request):
 
 def detail(request):
     if request.method == 'GET':
-        duty = Duty.objects.all().last()
-        duty_staff = DutyStaff.objects.filter(duty=duty.pk)
         data = {
-            'employees': duty_staff,
         }
         return render(request, 'duty/detail.html', data)
     return HttpResponse(status=405)

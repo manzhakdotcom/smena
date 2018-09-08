@@ -1,0 +1,22 @@
+{% if duty.exists == False %}
+    <a class="uk-button uk-button-danger uk-width-1-1 uk-padding-remove" href="{% url 'duty:index' %}">Добавить
+        дежурство</a>
+{% else %}
+    <div class="uk-card uk-card-default uk-card-body">
+        <h5 class="uk-text-uppercase">Дежурство</h5>
+        <ul class="uk-list uk-list-divider">
+            {% for employee in duty %}
+                <li>
+                    <p class="uk-margin-remove-bottom uk-text-break">{{ employee.employee.surname }} {{ employee.employee.name }} {{ employee.employee.patronymic }}</p>
+                    <div class="uk-text-meta uk-panel uk-panel-box uk-text-truncate"><span
+                            class="uk-margin-small-right"
+                            uk-icon="icon: receiver; ratio: 0.8"
+                            uk-tooltip="тел. {{ employee.workplace.telefon }}"></span>{{ employee.workplace.name }}
+                    </div>
+                </li>
+
+            {% endfor %}
+        </ul>
+        <a href="{% url 'duty:detail' %}"></span>Редактировать дежурство</a>
+    </div>
+{% endif %}

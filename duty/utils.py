@@ -1,31 +1,25 @@
 from datetime import datetime, timedelta
+import pytz
 
-from duty.models import Duty
+from django.utils import timezone
 
-def is_duty():
-    duty_datetime = Duty.objects.all().last().date
-    dt_tday = datetime.now()
-    dt_8am = datetime(dt_tday.year, dt_tday.month, dt_tday.day, 8)
-    dt_8pm = datetime(dt_tday.year, dt_tday.month, dt_tday.day, 20)
 
-    if dt_tday > dt_8pm:
-        start_duty = dt_8pm
-        finish_duty = dt_8pm + timedelta(0, 12*60*60)
-    elif dt_tday < dt_8am:
-        start_duty = dt_8am - timedelta(0, 12*60*60)
-        finish_duty = dt_8am
+def get_duty_datetime():
+    dt_now = timezone.now()
+    dt = datetime.now()
+    _8am = datetime(dt_now.year, dt_now.month, dt_now.day, 8, 0, 0, 00000, pytz.UTC)
+    _8pm = datetime(dt_now.year, dt_now.month, dt_now.day, 20, 0, 0, 00000, pytz.UTC)
+
+    if dt_now > _8pm:
+        start_duty_datetime = _8pm
+        end_duty_datetime = _8pm + timedelta(0, 12 * 60 * 60)
+    elif dt_now < _8am:
+        start_duty_datetime = _8am - timedelta(0, 12 * 60 * 60)
+        end_duty_datetime = _8am
     else:
-        start_duty = dt_8am
-        finish_duty = dt_8pm
+        start_duty_datetime = _8am
+        end_duty_datetime = _8pm
 
-    return 'с {}:{} {}.{}.{} по {}:{} {}.{}.{}'.format(
-                                                        start_duty.strftime('%H'),
-                                                        start_duty.strftime('%M'),
-                                                        start_duty.strftime('%d'),
-                                                        start_duty.strftime('%m'),
-                                                        start_duty.strftime('%Y'),
-                                                        finish_duty.strftime('%H'),
-                                                        finish_duty.strftime('%M'),
-                                                        finish_duty.strftime('%d'),
-                                                        finish_duty.strftime('%m'),
-                                                        finish_duty.strftime('%Y')
+    time = {'start': start_duty_datetime, 'end': end_duty_datetime}
+
+    return time

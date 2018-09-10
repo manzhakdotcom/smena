@@ -6,18 +6,12 @@ from django.utils import timezone
 from duty.forms import DutyForm
 from duty.models import Duty, DutyStaff
 from staff.models import Employee, Workplace
-from duty.utils import is_duty
 
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
-        if is_duty:
-            data = {
-                'form': False
-            }
-        else:
-            data = {
+        data = {
                 'form': DutyForm()
             }
         return render(request, 'duty/form.html', data)

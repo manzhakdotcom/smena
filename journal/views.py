@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
-from journal.utils import set_properties_to_write_down, get_duty_time
+from journal.utils import set_properties_to_write_down
 
 
 # Create your views here.
@@ -12,7 +12,6 @@ def index(request):
     if request.method == 'GET':
         data = {
             'alert': request.GET.get('alert', False),
-            'duty_time': get_duty_time(),
             'all_write_down': set_properties_to_write_down(),
         }
         return render(request, 'index.html', data)

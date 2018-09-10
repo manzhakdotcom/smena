@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'duty.context_processors.duty_staff',
+                'duty.context_processors.duty_datetime',
             ],
         },
     },

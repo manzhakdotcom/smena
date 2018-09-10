@@ -6,7 +6,6 @@ from django.utils import timezone
 
 def get_duty_datetime():
     dt_now = timezone.now()
-    dt = datetime.now()
     _8am = datetime(dt_now.year, dt_now.month, dt_now.day, 8, 0, 0, 00000, pytz.UTC)
     _8pm = datetime(dt_now.year, dt_now.month, dt_now.day, 20, 0, 0, 00000, pytz.UTC)
 

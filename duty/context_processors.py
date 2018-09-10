@@ -5,9 +5,10 @@ from duty.utils import get_duty_datetime
 
 
 def duty_staff(request):
-    duty_datetime = get_duty_datetime()
-    duty = Duty.objects.filter(date__range=[duty_datetime['start'], duty_datetime['end']])
-    if duty.exists():
+    dt = get_duty_datetime()
+    duty = Duty.objects.filter(date__gte=dt['start'], date__lte=dt['end']).last()
+
+    if duty:
         duty_staff = DutyStaff.objects.filter(duty=duty.pk)
     else:
         duty_staff = False

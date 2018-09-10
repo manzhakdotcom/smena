@@ -1,7 +1,8 @@
+from datetime import datetime
+
 from django.shortcuts import render
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
-from django.utils import timezone
 
 from duty.forms import DutyForm
 from duty.models import Duty, DutyStaff
@@ -19,7 +20,7 @@ def index(request):
         form = DutyForm(request.POST)
         if form.is_valid():
             with transaction.atomic():
-                duty = Duty(date=timezone.now())
+                duty = Duty(date=datetime.now())
                 duty.save()
                 for key, value in form.cleaned_data.items():
                     employee = Employee.objects.get(id=value.pk)

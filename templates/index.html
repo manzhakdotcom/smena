@@ -45,15 +45,9 @@
 </div>
 
 <div class="uk-container uk-container-small">
-        {% if alert == 'write_down_no' %}
-
-    <div class="uk-section-xsmall uk-padding-remove-bottom">
-            <div class="uk-alert-danger uk-margin-remove-bottom" uk-alert>
-                <a class="uk-alert-close" uk-close></a>
-                <p>Такой записи нет. Выберите существующую запись и повторите попытку.</p>
-            </div>
-    </div>
-        {% endif %}
+    {% if alert %}
+        {% include 'alerts.html' %}
+    {% endif %}
 
     <div class="uk-section-small">
         <div uk-grid>

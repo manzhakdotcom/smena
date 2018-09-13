@@ -1,5 +1,5 @@
 {% if duty == False %}
-    <a class="uk-button uk-button-danger uk-width-1-1 uk-padding-remove" href="{% url 'duty:index' %}">Добавить
+    <a class="uk-button uk-button-danger uk-width-1-1 uk-padding-remove" href="{% url 'duty:form' %}">Добавить
         дежурство</a>
 {% else %}
     <div class="uk-card uk-card-default uk-card-body">
@@ -17,6 +17,6 @@
 
             {% endfor %}
         </ul>
-        <a href="{% url 'duty:detail' %}"></span>Редактировать дежурство</a>
+        <a href="#"></span>Редактировать дежурство</a>
     </div>
 {% endif %}

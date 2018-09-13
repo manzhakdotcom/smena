@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.urls import reverse
 from django.shortcuts import render
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
@@ -10,11 +11,11 @@ from staff.models import Employee, Workplace
 
 
 # Create your views here.
-def index(request):
+def form(request):
+    data = {
+        'form': DutyForm()
+    }
     if request.method == 'GET':
-        data = {
-                'form': DutyForm()
-            }
         return render(request, 'duty/form.html', data)
     elif request.method == 'POST':
         form = DutyForm(request.POST)
@@ -27,18 +28,8 @@ def index(request):
                     workplace = Workplace.objects.get(id=int(key))
                     duty_staff = DutyStaff(duty=duty, employee=employee, workplace=workplace)
                     duty_staff.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('{}?alert=duty_added'.format(reverse('index')))
         else:
-            data = {
-                'form': form
-            }
             return render(request, 'duty/form.html', data)
     return HttpResponse(status=405)
 
-
-def detail(request):
-    if request.method == 'GET':
-        data = {
-        }
-        return render(request, 'duty/detail.html', data)
-    return HttpResponse(status=405)

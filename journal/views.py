@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
-from journal.utils import set_properties_to_write_down
+from journal.utils import get_all_write_down, is_write_out, is_extra_write_out
 
 
 # Create your views here.
@@ -12,7 +12,7 @@ def index(request):
     if request.method == 'GET':
         data = {
             'alert': request.GET.get('alert', False),
-            'all_write_down': set_properties_to_write_down(),
+            'all_write_down': get_all_write_down(),
         }
         return render(request, 'index.html', data)
     return HttpResponse(status=405)
@@ -50,17 +50,16 @@ def write_down(request):
 
 
 def write_out(request, write_down_id):
-    write_down = WriteDown.objects.select_related().filter(id=write_down_id).first()
+    write_down = WriteDown.objects.get(id=write_down_id)
     if not write_down:
         return HttpResponseRedirect('{}?alert=write_down_no'.format(reverse('index')))
+    if is_write_out(write_down_id):
+        return HttpResponseRedirect('{}?alert=write_out_is'.format(reverse('index')))
+    data = {
+        'write_down': write_down,
+        'form': WriteOutForm(initial={'write_down': write_down})
+    }
     if request.method == 'GET':
-        form = WriteOutForm(initial={
-            'write_down': write_down
-        })
-        data = {
-            'write_down': write_down,
-            'form': form
-        }
         return render(request, 'journal/add/write-out.html', data)
     elif request.method == 'POST':
         form = WriteOutForm(request.POST)
@@ -68,27 +67,22 @@ def write_out(request, write_down_id):
             write_out = form.save()
             return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
         else:
-            data = {
-                'write_down': write_down,
-                'form': form
-            }
             return render(request, 'journal/add/write-out.html', data)
     
     return HttpResponse(status=405)
 
 
 def extra_write_out(request, write_down_id):
-    write_down = WriteDown.objects.select_related().filter(id=write_down_id).first()
+    write_down = WriteDown.objects.get(id=write_down_id)
     if not write_down:
         return HttpResponseRedirect('{}?alert=write_down_no'.format(reverse('index')))
+    if is_extra_write_out(write_down_id):
+        return HttpResponseRedirect('{}?alert=extra_write_out_is'.format(reverse('index')))
+    data = {
+        'write_down': write_down,
+        'form': ExtraWriteOutForm(initial={'write_down': write_down})
+    }
     if request.method == 'GET':
-        form = ExtraWriteOutForm(initial={
-            'write_down': write_down
-        })
-        data = {
-            'write_down': write_down,
-            'form': form
-        }
         return render(request, 'journal/add/extra-write-out.html', data)
     elif request.method == 'POST':
         form = ExtraWriteOutForm(request.POST)
@@ -96,10 +90,6 @@ def extra_write_out(request, write_down_id):
             extra_write_out = form.save()
             return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
         else:
-            data = {
-                'write_down': write_down,
-                'form': form
-            }
             return render(request, 'journal/add/extra-write-out.html', data)
     
     return HttpResponse(status=405)

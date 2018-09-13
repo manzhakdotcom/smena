@@ -16,13 +16,9 @@ class DutyStaff(models.Model):
     )
     employee = models.ForeignKey(
         Employee,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True
+        on_delete=models.CASCADE,
     )
     workplace = models.ForeignKey(
         Workplace,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True
+        on_delete=models.CASCADE,
     )

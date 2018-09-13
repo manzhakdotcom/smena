@@ -7,7 +7,7 @@ class DutyForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
-        super(DutyForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         workplaces = Workplace.objects.filter(organization__abbr='КТЦ')
         for workplace in workplaces:

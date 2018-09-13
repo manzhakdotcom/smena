@@ -1,9 +1,7 @@
 from django.urls import path
 
-from duty.views import index, detail
-
+from duty.views import form
 app_name = 'duty'
 urlpatterns = [
-    path('', index, name='index'),
-    path('detail/', detail, name='detail'),
+    path('', form, name='form'),
 ]

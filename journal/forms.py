@@ -5,7 +5,7 @@ from journal.models import WriteOut, WriteDown, ExtraWriteOut
 class WriteOutForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
-        super(WriteOutForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     write_down = forms.ModelChoiceField(queryset=WriteDown.objects.all(), widget=forms.HiddenInput)
     
@@ -22,7 +22,7 @@ class WriteOutForm(forms.ModelForm):
 class WriteDownForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
-        super(WriteDownForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = WriteDown
@@ -37,7 +37,7 @@ class WriteDownForm(forms.ModelForm):
 class ExtraWriteOutForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
-        super(ExtraWriteOutForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
     write_down = forms.ModelChoiceField(queryset=WriteDown.objects.all(), widget=forms.HiddenInput)
     
     class Meta:

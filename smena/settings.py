@@ -172,7 +172,6 @@ LOGGING = {
 
 
 MESSAGE_TAGS = {
-    messages.DEBUG: '',
     messages.INFO: 'uk-alert-primary',
     messages.SUCCESS: 'uk-alert-success',
     messages.WARNING: 'uk-alert-warning',

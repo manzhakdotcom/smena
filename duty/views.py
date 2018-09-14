@@ -1,13 +1,14 @@
 from datetime import datetime
 
-from django.urls import reverse
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 
 from duty.forms import DutyForm
 from duty.models import Duty, DutyStaff
 from staff.models import Employee, Workplace
+from . import DisplayMessages
 
 
 # Create your views here.
@@ -28,7 +29,8 @@ def form(request):
                     workplace = Workplace.objects.get(id=int(key))
                     duty_staff = DutyStaff(duty=duty, employee=employee, workplace=workplace)
                     duty_staff.save()
-            return HttpResponseRedirect('{}?alert=duty_added'.format(reverse('index')))
+            messages.success(request, DisplayMessages.DUTY_SAVE)
+            return redirect('index')
         else:
             return render(request, 'duty/form.html', data)
     return HttpResponse(status=405)

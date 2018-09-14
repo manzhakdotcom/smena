@@ -6,6 +6,7 @@ from django.contrib import messages
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
 from journal.utils import get_all_write_down, is_write_out, is_extra_write_out
+from . import DisplayMessages
 
 
 # Create your views here.
@@ -23,10 +24,7 @@ def detail(request, write_down_id):
     try:
         write_down = WriteDown.objects.get(id=write_down_id)
     except WriteDown.DoesNotExist:
-        messages.error(
-            request,
-            'Такой записи нет. Выберите существующую запись и повторите попытку.'
-        )
+        messages.error(request, DisplayMessages.WRITE_DOWN_NOT_EXIST)
         return redirect('index')
     if request.method == 'GET':
         data = {
@@ -41,19 +39,16 @@ def detail(request, write_down_id):
 def write_down(request):
     if request.method == 'GET':
         form = WriteDownForm()
-        data = {
-            'form': form
-        }
+        data = {'form': form}
         return render(request, 'journal/add/write-down.html', data)
     elif request.method == 'POST':
         form = WriteDownForm(request.POST)
         if form.is_valid():
             write_down = form.save()
+            messages.success(request, DisplayMessages.WRITE_DOWN_SAVE)
             return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': write_down.pk}))
         else:
-            data = {
-                'form': form
-            }
+            data = {'form': form}
             return render(request, 'journal/add/write-down.html', data)
     return HttpResponse(status=405)
 
@@ -62,16 +57,10 @@ def write_out(request, write_down_id):
     try:
         write_down = WriteDown.objects.get(id=write_down_id)
     except WriteDown.DoesNotExist:
-        messages.error(
-            request,
-            'Такой записи нет. Выберите существующую запись и повторите попытку.'
-        )
+        messages.error(request, DisplayMessages.WRITE_DOWN_NOT_EXIST)
         return redirect('index')
     if is_write_out(write_down_id):
-        messages.error(
-            request,
-            'Выписка к записи уже существует. Отредактируйте сущствующую выписку.'
-        )
+        messages.error(request, DisplayMessages.WRITE_OUT_IS)
         return redirect('index')
     data = {
         'write_down': write_down,
@@ -83,6 +72,7 @@ def write_out(request, write_down_id):
         form = WriteOutForm(request.POST)
         if form.is_valid():
             write_out = form.save()
+            messages.success(request, DisplayMessages.WRITE_OUT_SAVE)
             return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
         else:
             return render(request, 'journal/add/write-out.html', data)
@@ -94,16 +84,10 @@ def extra_write_out(request, write_down_id):
     try:
         write_down = WriteDown.objects.get(id=write_down_id)
     except WriteDown.DoesNotExist:
-        messages.error(
-            request,
-            'Такой записи нет. Выберите существующую запись и повторите попытку.'
-        )
+        messages.error(request, DisplayMessages.WRITE_DOWN_NOT_EXIST)
         return redirect('index')
     if is_extra_write_out(write_down_id):
-        messages.error(
-            request,
-            'Дополнительная выписка к записи уже существует. Отредактируйте сущствующую дополнительную выписку.'
-        )
+        messages.error(request, DisplayMessages.EXTRA_WRITE_OUT_IS)
         return redirect('index')
     data = {
         'write_down': write_down,
@@ -115,6 +99,7 @@ def extra_write_out(request, write_down_id):
         form = ExtraWriteOutForm(request.POST)
         if form.is_valid():
             extra_write_out = form.save()
+            messages.success(request, DisplayMessages.EXTRA_WRITE_OUT_SAVE)
             return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
         else:
             return render(request, 'journal/add/extra-write-out.html', data)

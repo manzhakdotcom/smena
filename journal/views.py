@@ -1,6 +1,7 @@
 from django.urls import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
@@ -19,9 +20,17 @@ def index(request):
 
 
 def detail(request, write_down_id):
+    try:
+        write_down = WriteDown.objects.get(id=write_down_id)
+    except WriteDown.DoesNotExist:
+        messages.error(
+            request,
+            'Такой записи нет. Выберите существующую запись и повторите попытку.'
+        )
+        return redirect('index')
     if request.method == 'GET':
         data = {
-            'write_down': WriteDown.objects.get(id=write_down_id),
+            'write_down': write_down,
             'write_out': WriteOut.objects.filter(write_down_id=write_down_id).first(),
             'extra_write_out': ExtraWriteOut.objects.filter(write_down_id=write_down_id).first(),
         }
@@ -50,11 +59,20 @@ def write_down(request):
 
 
 def write_out(request, write_down_id):
-    write_down = WriteDown.objects.get(id=write_down_id)
-    if not write_down:
-        return HttpResponseRedirect('{}?alert=write_down_no'.format(reverse('index')))
+    try:
+        write_down = WriteDown.objects.get(id=write_down_id)
+    except WriteDown.DoesNotExist:
+        messages.error(
+            request,
+            'Такой записи нет. Выберите существующую запись и повторите попытку.'
+        )
+        return redirect('index')
     if is_write_out(write_down_id):
-        return HttpResponseRedirect('{}?alert=write_out_is'.format(reverse('index')))
+        messages.error(
+            request,
+            'Выписка к записи уже существует. Отредактируйте сущствующую выписку.'
+        )
+        return redirect('index')
     data = {
         'write_down': write_down,
         'form': WriteOutForm(initial={'write_down': write_down})
@@ -73,11 +91,20 @@ def write_out(request, write_down_id):
 
 
 def extra_write_out(request, write_down_id):
-    write_down = WriteDown.objects.get(id=write_down_id)
-    if not write_down:
-        return HttpResponseRedirect('{}?alert=write_down_no'.format(reverse('index')))
+    try:
+        write_down = WriteDown.objects.get(id=write_down_id)
+    except WriteDown.DoesNotExist:
+        messages.error(
+            request,
+            'Такой записи нет. Выберите существующую запись и повторите попытку.'
+        )
+        return redirect('index')
     if is_extra_write_out(write_down_id):
-        return HttpResponseRedirect('{}?alert=extra_write_out_is'.format(reverse('index')))
+        messages.error(
+            request,
+            'Дополнительная выписка к записи уже существует. Отредактируйте сущствующую дополнительную выписку.'
+        )
+        return redirect('index')
     data = {
         'write_down': write_down,
         'form': ExtraWriteOutForm(initial={'write_down': write_down})

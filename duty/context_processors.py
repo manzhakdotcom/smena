@@ -9,7 +9,7 @@ def duty_staff(request):
     duty = Duty.objects.filter(date__gte=dt['start'], date__lte=dt['end']).last()
 
     if duty:
-        duty_staff = DutyStaff.objects.filter(duty=duty.pk)
+        duty_staff = DutyStaff.objects.select_related('employee', 'workplace').filter(duty=duty.pk)
     else:
         duty_staff = False
 

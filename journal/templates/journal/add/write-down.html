@@ -3,12 +3,18 @@
 {% block content %}
     <div class="uk-section-small uk-padding-remove-top">
         <h4 class="uk-text-uppercase">Добавить запись</h4>
-        <div class="uk-card uk-card-default uk-card-body">
+        {% if duty == False %}
+            <div class="uk-alert-danger" uk-alert>
+                <p>Для того, чтобы добавить новую запись необходимо добавить смену.</p>
+            </div>
+        {% else %}
+            <div class="uk-card uk-card-default uk-card-body">
             <form action="{% url 'journal:add/write-down' %}" method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input class="uk-button uk-button-primary" type="submit" value="Добавить" >
             </form>
         </div>
+        {% endif %}
     </div>
 {% endblock %}

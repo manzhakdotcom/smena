@@ -1,7 +1,26 @@
 {% extends "index.html" %}
 {% block title %}Архив{% endblock %}
 {% block content %}
-<div class="uk-alert-primary" uk-alert>
-    <p>Архив. В разработке.</p>
-</div>
+    <div class="uk-alert" uk-alert>
+        <p>Укажите интервал архивных данных.</p>
+        <form method="get" action=""  class="uk-grid-small" uk-grid>
+            <div class="uk-width-1-2">
+                <label class="uk-form-label" for="form-stacked-text">C</label>
+                <input class="uk-input" name="from" type="date" placeholder="50">
+            </div>
+            <div class="uk-width-1-2">
+                <label class="uk-form-label" for="form-stacked-text">По</label>
+                <input class="uk-input" name="to" type="date" placeholder="25">
+            </div>
+            <div class="uk-width-1-1">
+                <input class="uk-button uk-button-primary" type="submit" value="Поиск" >
+            </div>
+        </form>
+
+    </div>
+    <div class="uk-card uk-card-default uk-card-body uk-margin-medium-bottom">
+                <p class="uk-text-uppercase">Записи</p>
+                <span class="uk-text-meta">С {{from }} по {{ to }}</span>
+                <p>Найдено</p>
+            </div>
 {% endblock %}

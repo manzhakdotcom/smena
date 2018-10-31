@@ -1,8 +1,17 @@
-# tceh
+# Introduction
+Smena is simple django application for keeping a log of duties.
+## Installation
 
-1. Clone the repository:
+```
+git clone https://github.com/manzhakdotcom/smena.git
 
-git clone https://github.com/manzhakdotcom/tceh.git
+python -m venv venv
 
-2. Creating virtual environments:
-c:\>python -m venv venv
+source venv/Scripts/activate
+
+pip install -r requirements.txt
+
+python manage.py migrate
+
+python manage.py runserver
+```

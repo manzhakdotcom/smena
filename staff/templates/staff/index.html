@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block title %}Сотрудники{% endblock %}
+{% block content %}
+<table class="uk-table uk-table-striped">
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Должность</th>
+                <th>Организация</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.surname }}</td>
+                    <td>{{ employee.position }}</td>
+                    <td>{{ employee.organization }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

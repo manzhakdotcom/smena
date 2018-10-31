@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block title %}Станции{% endblock %}
+{% block content %}
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Станция</th>
+            <th>Диспетчерский круг</th>
+            <th>ШЧ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for station in stations %}
+            <tr>
+                <td>{{ station.name }}</td>
+                <td>{{ station.circle }}</td>
+                <td> <span uk-tooltip="{{ station.shch.name }}">{{ station.shch.abbr }}</span></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

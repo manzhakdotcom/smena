@@ -1,0 +1,9 @@
+<div class="uk-section-xsmall uk-padding-remove-bottom">
+    {% for message in messages %}
+        <div class="{{ message.tags }} uk-margin-remove-bottom" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+
+</div>

@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+{% block title %}Подробно{% endblock %}
+{% block content %}
+<div class="uk-section-small uk-padding-remove-top">
+    <div class="uk-container">
+
+
+            <div class="uk-section-small uk-padding-remove-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <p class="uk-text-uppercase">Запись</p>
+                    <span class="uk-text-meta">{{ write_down.date|date:"d.m.Y" }} в {{ write_down.time|time:"H:i" }}</span>
+                    <p>{{ write_down.text }}</p>
+                    <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                        <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
+                        <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                    </ul>
+                </div>
+                </div>
+
+
+                <div class="uk-section-small uk-padding-remove-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <p class="uk-text-uppercase">Выписка</p>
+                    {% if write_out %}
+                        <span class="uk-text-meta">{{ write_out.date|date:"d.m.Y" }} в {{ write_out.time|time:"H:i" }}</span>
+                        <p>{{ write_out.text }}</p>
+                        <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                            <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
+                            <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                        </ul>
+                    {% else %}
+                        <p><a href="{% url 'journal:add/write-out' write_down.id %}" class="uk-button uk-button-default">Добавить выписку</a></p>
+                    {% endif %}
+                </div>
+                </div>
+
+
+                <div class="uk-section-small uk-padding-remove-top">
+                <div class="uk-card uk-card-default uk-card-body">
+
+                    <p class="uk-text-uppercase">Доп. выписка</p>
+                    {% if extra_write_out %}
+                        <span class="uk-text-meta">{{ extra_write_out.date|date:"d.m.Y" }} в {{ extra_write_out.time|time:"H:i" }}</span>
+                        <p>{{ extra_write_out.text }}</p>
+                        <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                            <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
+                            <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                        </ul>
+                    {% else %}
+                        <p><a href="{% url 'journal:add/extra-write-out' write_down.id %}" class="uk-button uk-button-default">Добавить доп. выписку</a></p>
+                    {% endif %}
+                </div>
+                </div>
+
+
+
+    </div>
+</div>
+
+{% endblock %}

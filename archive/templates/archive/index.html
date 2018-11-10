@@ -3,20 +3,23 @@
 {% block content %}
     <div class="uk-alert" uk-alert>
         <p>Укажите интервал архивных данных.</p>
-        <form method="get" action=""  class="uk-grid-small" uk-grid>
-            <div class="uk-width-1-2">
-                <label class="uk-form-label" for="form-stacked-text">C</label>
-                <input class="uk-input" name="from" type="date" placeholder="50">
-            </div>
-            <div class="uk-width-1-2">
-                <label class="uk-form-label" for="form-stacked-text">По</label>
-                <input class="uk-input" name="to" type="date" placeholder="25">
-            </div>
-            <div class="uk-width-1-1">
-                <input class="uk-button uk-button-primary" type="submit" value="Поиск" >
-            </div>
-        </form>
+        <form action="{% url 'archive:index' %}" method="get" class="uk-grid-small" uk-grid>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="uk-width-1-2">
+                    {{ field.errors }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
 
+            {% endfor %}
+        <div class="uk-width-1-1">
+            <input class="uk-button uk-button-primary" type="submit" value="Поиск" >
+        </div>
+        </form>
     </div>
     <div class="uk-card uk-card-default uk-card-body uk-margin-medium-bottom">
                 <p class="uk-text-uppercase">Записи</p>

@@ -11,19 +11,62 @@
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field }}
                     {% if field.help_text %}
-                    <p class="help">{{ field.help_text|safe }}</p>
+                        <p class="help">{{ field.help_text|safe }}</p>
                     {% endif %}
                 </div>
 
             {% endfor %}
-        <div class="uk-width-1-1">
-            <input class="uk-button uk-button-primary" type="submit" value="Поиск" >
-        </div>
+            <div class="uk-width-1-1">
+                <input class="uk-button uk-button-primary" type="submit" value="Поиск">
+            </div>
         </form>
     </div>
-    <div class="uk-card uk-card-default uk-card-body uk-margin-medium-bottom">
-                <p class="uk-text-uppercase">Записи</p>
-                <span class="uk-text-meta">С {{from }} по {{ to }}</span>
-                <p>Найдено</p>
+    <p>Архив записей <span class="uk-text-muted">от {{ date_from }} до {{ date_to }}</span></p>
+    {% if items.exists %}
+        {% for write_down in items %}
+            <div class="uk-section-small uk-padding-remove-top">
+                <div class="uk-card uk-card-default uk-card-body">
+                    <span>{{ write_down.date|date:"d.m.Y" }} в {{ write_down.time|time:"H:i" }}</span>
+                    <p>{{ write_down.text }}</p>
+                    <ul class="uk-subnav uk-subnav-divider" uk-margin>
+                        <li>
+                            {% if write_down.is_write_out %}
+                                <span>
+                                                            <span class="uk-margin-small-right uk-text-success"
+                                                                  uk-icon="check"></span>
+                                                            Выписка
+                                                        </span>
+                            {% else %}
+                                <a href="{% url 'journal:add/write-out' write_down.id %}">
+                                    <span class="uk-margin-small-right" uk-icon="plus"></span>
+                                    Выписка
+                                </a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% if write_down.is_extra_write_out %}
+                                <span>
+                                                            <span class="uk-margin-small-right uk-text-success"
+                                                                  uk-icon="check"></span>
+                                                            Доп. выписка
+                                                        </span>
+                            {% else %}
+                                <a href="{% url 'journal:add/extra-write-out' write_down.id %}">
+                                    <span class="uk-margin-small-right" uk-icon="plus"></span>
+                                    Доп. выписка
+                                </a>
+                            {% endif %}
+                        </li>
+                        <li><a href="{% url 'journal:detail' write_down.id %}"><span
+                                class="uk-margin-small-right" uk-icon="list"></span>Подробно</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
+        {% endfor %}
+    {% else %}
+        <div class="uk-alert-primary" uk-alert>
+            <p>Нет записей</p>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -12,3 +12,4 @@ class ArchiveForm(forms.Form):
     archive_to = forms.DateField(label='По',
                                  widget=forms.TextInput(attrs={'class': 'uk-input',
                                                                'type': 'date'}))
+

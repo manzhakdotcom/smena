@@ -1,5 +1,3 @@
-<p>Записи СЦБ - <span
-        class="uk-text-muted">c {{ duty_dt.start|date:"H:i d.m.Y" }} по {{ duty_dt.end|date:"H:i d.m.Y" }}</span></p>
 {% if all_write_down.exists %}
     {% for write_down in all_write_down %}
         <div class="uk-section-small uk-padding-remove-top">

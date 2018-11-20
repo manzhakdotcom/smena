@@ -12,11 +12,11 @@ def index(request):
         'form': ArchiveForm(),
         'date_from': None,
         'date_to': None,
-        'items': (),
+        'all_write_down': (),
         }
     if 'archive_from' and 'archive_to' in request.GET:
         ctx['date_from'] = request.GET['archive_from']
         ctx['date_to'] = request.GET['archive_to']
-        ctx['items'] = get_all_write_down(request.GET['archive_from'], request.GET['archive_to'])
+        ctx['all_write_down'] = get_all_write_down(request.GET['archive_from'], request.GET['archive_to'])
     return TemplateResponse(request, 'archive/index.html', ctx)
 

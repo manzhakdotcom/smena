@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block title %}Редактировать выписку{% endblock %}
+{% block content %}
+    <div class="uk-section-small uk-padding-remove-top">
+            <h4 class="uk-text-uppercase">Редактировать выписку</h4>
+            <div class="uk-card uk-card-default uk-card-body uk-margin-medium-bottom">
+                <p class="uk-text-uppercase">Запись</p>
+                <span class="uk-text-meta">{{ write_down.date|date:"d.m.Y" }} в {{ write_down.time|time:"H:i" }}</span>
+                <p>{{ write_down.text }}</p>
+            </div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <p class="uk-text-uppercase">Выписка</p>
+                <form action="{% url 'journal:edit/write-out' write_down.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input class="uk-button uk-button-primary" type="submit" value="Добавить">
+                </form>
+            </div>
+    </div>
+{% endblock %}

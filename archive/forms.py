@@ -13,3 +13,6 @@ class ArchiveForm(forms.Form):
                                  widget=forms.TextInput(attrs={'class': 'uk-input',
                                                                'type': 'date'}))
 
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        print(cleaned_data)

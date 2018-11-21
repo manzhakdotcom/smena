@@ -28,7 +28,7 @@ class WriteDownForm(forms.ModelForm):
         model = WriteDown
         fields = ('date', 'time', 'text')
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'uk-input uk-form-width-medium uk-display-block'}, format='%Y-%m-%d'),
             'time': forms.TimeInput(attrs={'type': 'time', 'class': 'uk-input uk-form-width-medium uk-display-block'}),
             'text': forms.Textarea(attrs={'class': 'uk-textarea'}),
         }

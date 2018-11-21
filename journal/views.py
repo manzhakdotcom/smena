@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
@@ -104,4 +104,24 @@ def extra_write_out(request, write_down_id):
         else:
             return render(request, 'journal/add/extra-write-out.html', data)
     
+    return HttpResponse(status=405)
+
+
+def edit_extra_write_out(request, extra_write_out_id):
+    pass
+
+
+def edit_write_out(request, write_out_id):
+    pass
+
+
+def edit_write_down(request, write_down_id):
+    if request.method == 'GET':
+        write_down = get_object_or_404(WriteDown, pk=write_down_id)
+        form = WriteDownForm(instance=write_down)
+        data = {'form': form,
+                'write_down': write_down,
+                }
+        return render(request, 'journal/edit/write-down.html', data)
+
     return HttpResponse(status=405)

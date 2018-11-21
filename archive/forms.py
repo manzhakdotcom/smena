@@ -12,7 +12,3 @@ class ArchiveForm(forms.Form):
     archive_to = forms.DateField(label='По',
                                  widget=forms.TextInput(attrs={'class': 'uk-input',
                                                                'type': 'date'}))
-
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        print(cleaned_data)

@@ -21,6 +21,8 @@
             </div>
         </form>
     </div>
+    {% if date_from %}
     <p>Архив записей <span class="uk-text-muted">от {{ date_from }} до {{ date_to }}</span></p>
+    {% endif %}
     {% include 'journal/list.html' %}
 {% endblock %}

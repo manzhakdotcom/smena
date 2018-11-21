@@ -11,7 +11,7 @@
                     <span class="uk-text-meta">{{ write_down.date|date:"d.m.Y" }} в {{ write_down.time|time:"H:i" }}</span>
                     <p>{{ write_down.text }}</p>
                     <ul class="uk-subnav uk-subnav-divider" uk-margin>
-                        <li><a href="#" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
+                        <li><a href="{% url 'journal:edit/write-down' write_down.id %}" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
                         <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
                     </ul>
                 </div>

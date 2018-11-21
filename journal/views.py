@@ -123,5 +123,10 @@ def edit_write_down(request, write_down_id):
                 'write_down': write_down,
                 }
         return render(request, 'journal/edit/write-down.html', data)
-
+    elif request.method == 'POST':
+        form = WriteDownForm(request.POST)
+        if form.is_valid():
+            write_down = form.save()
+            messages.success(request, DisplayMessages.WRITE_DOWN_EDIT)
+            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': write_down.pk}))
     return HttpResponse(status=405)

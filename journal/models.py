@@ -18,6 +18,12 @@ class WriteDown(models.Model):
         verbose_name_plural = 'Записи СЦБ'
 
 
+class WriteOutQuerySet(models.QuerySet):
+    def is_published(self):
+        return self.filter(
+            models.Q(is_published=True))
+
+
 class WriteOut(models.Model):
     date = models.DateField(verbose_name='Дата выписки')
     time = models.TimeField(verbose_name='Время выписки')
@@ -33,6 +39,14 @@ class WriteOut(models.Model):
     class Meta:
         verbose_name = 'Выписка СЦБ'
         verbose_name_plural = 'Выписки СЦБ'
+
+    objects = WriteOutQuerySet.as_manager()
+
+
+class ExtraWriteOutQuerySet(models.QuerySet):
+    def is_published(self):
+        return self.filter(
+            models.Q(is_published=True))
 
 
 class ExtraWriteOut(models.Model):
@@ -50,3 +64,5 @@ class ExtraWriteOut(models.Model):
     class Meta:
         verbose_name = 'Доп. выписка СЦБ'
         verbose_name_plural = 'Доп. выписка СЦБ'
+
+    objects = ExtraWriteOutQuerySet.as_manager()

@@ -108,23 +108,53 @@ def extra_write_out(request, write_down_id):
 
 
 def edit_extra_write_out(request, extra_write_out_id):
-    pass
+    extra_write_out_list = ExtraWriteOut.objects.is_published()
+    extra_write_out = get_object_or_404(extra_write_out_list, write_down=extra_write_out_id)
+    if request.method == 'GET':
+        write_down = get_object_or_404(WriteDown, pk=extra_write_out_id)
+        data = {
+            'write_down': write_down,
+            'form': ExtraWriteOutForm(instance=extra_write_out)
+        }
+        return render(request, 'journal/edit/extra-write-out.html', data)
+    elif request.method == 'POST':
+        form = ExtraWriteOutForm(request.POST or None, instance=extra_write_out)
+        if form.is_valid():
+            extra_write_out = form.save()
+            messages.success(request, DisplayMessages.EXTRA_WRITE_OUT_EDIT)
+            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
+    return HttpResponse(status=405)
 
 
 def edit_write_out(request, write_out_id):
-    pass
+    write_out_list = WriteOut.objects.is_published()
+    write_out = get_object_or_404(write_out_list, write_down=write_out_id)
+    if request.method == 'GET':
+        write_down = get_object_or_404(WriteDown, pk=write_out_id)
+        data = {
+            'write_down': write_down,
+            'form': WriteOutForm(instance=write_out)
+        }
+        return render(request, 'journal/edit/write-out.html', data)
+    elif request.method == 'POST':
+        form = WriteOutForm(request.POST or None, instance=write_out)
+        if form.is_valid():
+            write_out = form.save()
+            messages.success(request, DisplayMessages.WRITE_OUT_EDIT)
+            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
+    return HttpResponse(status=405)
 
 
 def edit_write_down(request, write_down_id):
+    write_down = get_object_or_404(WriteDown, pk=write_down_id)
     if request.method == 'GET':
-        write_down = get_object_or_404(WriteDown, pk=write_down_id)
         form = WriteDownForm(instance=write_down)
         data = {'form': form,
                 'write_down': write_down,
                 }
         return render(request, 'journal/edit/write-down.html', data)
     elif request.method == 'POST':
-        form = WriteDownForm(request.POST)
+        form = WriteDownForm(request.POST or None, instance=write_down)
         if form.is_valid():
             write_down = form.save()
             messages.success(request, DisplayMessages.WRITE_DOWN_EDIT)

@@ -13,7 +13,7 @@
                 <form action="{% url 'journal:edit/write-out' write_down.id %}" method="POST">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <input class="uk-button uk-button-primary" type="submit" value="Добавить">
+                    <input class="uk-button uk-button-primary" type="submit" value="Обновить">
                 </form>
             </div>
     </div>

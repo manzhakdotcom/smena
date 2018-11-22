@@ -2,7 +2,7 @@ from journal.models import WriteDown, WriteOut, ExtraWriteOut
 
 
 def get_all_write_down():
-    all_write_down = WriteDown.objects.all()
+    all_write_down = WriteDown.objects.all().order_by('date', 'time')
     return set_extra_properties(all_write_down)
 
 

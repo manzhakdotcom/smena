@@ -3,7 +3,7 @@ from django.db.models import Q
 
 
 def get_all_write_down(date_from, date_to):
-    all_write_down = WriteDown.objects.filter(Q(date__gte=date_from, date__lte=date_to))
+    all_write_down = WriteDown.objects.filter(Q(date__gte=date_from, date__lte=date_to)).order_by('date', 'time')
     return set_extra_properties(all_write_down)
 
 

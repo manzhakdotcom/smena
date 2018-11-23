@@ -1,3 +1,5 @@
+import json
+
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -160,3 +162,13 @@ def edit_write_down(request, write_down_id):
             messages.success(request, DisplayMessages.WRITE_DOWN_EDIT)
             return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': write_down.pk}))
     return HttpResponse(status=405)
+
+
+def delete(request, type, id):
+    if request.method == 'get':
+        print(type, id)
+        return HttpResponse(json.dumps({'any to see' + str(type): 'this is happening' + str(id)}),
+                            content_type='application/json')
+    else:
+        return HttpResponse(json.dumps({'nothing to see': 'this isn\'t happening'}),
+                            content_type='application/json')

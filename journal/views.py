@@ -7,7 +7,7 @@ from django.contrib import messages
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
-from journal.utils import get_all_write_down, is_write_out, is_extra_write_out
+from journal.utils import get_write_downs_with_details, get_write_downs, is_write_out, is_extra_write_out, get_write_outs, get_extra_write_outs
 from . import DisplayMessages
 
 
@@ -16,23 +16,24 @@ def index(request):
     if request.method == 'GET':
         data = {
             'alert': request.GET.get('alert', False),
-            'all_write_down': get_all_write_down(),
+            'all_write_down': get_write_downs_with_details(),
         }
         return render(request, 'index.html', data)
     return HttpResponse(status=405)
 
 
 def detail(request, write_down_id):
-    try:
-        write_down = WriteDown.objects.get(id=write_down_id)
-    except WriteDown.DoesNotExist:
-        messages.error(request, DisplayMessages.WRITE_DOWN_NOT_EXIST)
-        return redirect('index')
+    write_downs = get_write_downs()
+    write_down = get_object_or_404(write_downs, id=write_down_id)
+    write_outs = get_write_outs()
+    write_out = write_outs.filter(write_down=write_down_id).first()
+    extra_write_outs = get_extra_write_outs()
+    extra_write_out = extra_write_outs.filter(write_down=write_down_id).first()
     if request.method == 'GET':
         data = {
             'write_down': write_down,
-            'write_out': WriteOut.objects.filter(write_down_id=write_down_id).first(),
-            'extra_write_out': ExtraWriteOut.objects.filter(write_down_id=write_down_id).first(),
+            'write_out': write_out,
+            'extra_write_out': extra_write_out,
         }
         return render(request, 'journal/detail.html', data)
     return HttpResponse(status=405)
@@ -44,7 +45,7 @@ def write_down(request):
         data = {'form': form}
         return render(request, 'journal/add/write-down.html', data)
     elif request.method == 'POST':
-        form = WriteDownForm(request.POST)
+        form = WriteDownForm(request.POST or None)
         if form.is_valid():
             write_down = form.save()
             messages.success(request, DisplayMessages.WRITE_DOWN_SAVE)
@@ -56,14 +57,11 @@ def write_down(request):
 
 
 def write_out(request, write_down_id):
-    try:
-        write_down = WriteDown.objects.get(id=write_down_id)
-    except WriteDown.DoesNotExist:
-        messages.error(request, DisplayMessages.WRITE_DOWN_NOT_EXIST)
-        return redirect('index')
     if is_write_out(write_down_id):
         messages.error(request, DisplayMessages.WRITE_OUT_IS)
         return redirect('index')
+    write_downs = get_write_downs()
+    write_down = get_object_or_404(write_downs, id=write_down_id)
     data = {
         'write_down': write_down,
         'form': WriteOutForm(initial={'write_down': write_down})
@@ -71,11 +69,11 @@ def write_out(request, write_down_id):
     if request.method == 'GET':
         return render(request, 'journal/add/write-out.html', data)
     elif request.method == 'POST':
-        form = WriteOutForm(request.POST)
+        form = WriteOutForm(request.POST or None)
         if form.is_valid():
             write_out = form.save()
             messages.success(request, DisplayMessages.WRITE_OUT_SAVE)
-            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST['write_down']}))
+            return HttpResponseRedirect(reverse('journal:detail', kwargs={'write_down_id': request.POST.get('write_down')}))
         else:
             return render(request, 'journal/add/write-out.html', data)
     
@@ -83,14 +81,11 @@ def write_out(request, write_down_id):
 
 
 def extra_write_out(request, write_down_id):
-    try:
-        write_down = WriteDown.objects.get(id=write_down_id)
-    except WriteDown.DoesNotExist:
-        messages.error(request, DisplayMessages.WRITE_DOWN_NOT_EXIST)
-        return redirect('index')
     if is_extra_write_out(write_down_id):
         messages.error(request, DisplayMessages.EXTRA_WRITE_OUT_IS)
         return redirect('index')
+    write_downs = get_write_downs()
+    write_down = get_object_or_404(write_downs, id=write_down_id)
     data = {
         'write_down': write_down,
         'form': ExtraWriteOutForm(initial={'write_down': write_down})
@@ -110,10 +105,11 @@ def extra_write_out(request, write_down_id):
 
 
 def edit_extra_write_out(request, extra_write_out_id):
-    extra_write_out_list = ExtraWriteOut.objects.is_published()
-    extra_write_out = get_object_or_404(extra_write_out_list, write_down=extra_write_out_id)
+    extra_write_outs = get_extra_write_outs()
+    extra_write_out = get_object_or_404(extra_write_outs, write_down=extra_write_out_id)
     if request.method == 'GET':
-        write_down = get_object_or_404(WriteDown, pk=extra_write_out_id)
+        write_downs = get_write_downs()
+        write_down = get_object_or_404(write_downs, id=extra_write_out_id)
         data = {
             'write_down': write_down,
             'form': ExtraWriteOutForm(instance=extra_write_out)
@@ -129,10 +125,11 @@ def edit_extra_write_out(request, extra_write_out_id):
 
 
 def edit_write_out(request, write_out_id):
-    write_out_list = WriteOut.objects.is_published()
-    write_out = get_object_or_404(write_out_list, write_down=write_out_id)
+    write_outs = get_write_outs()
+    write_out = get_object_or_404(write_outs, write_down=write_out_id)
     if request.method == 'GET':
-        write_down = get_object_or_404(WriteDown, pk=write_out_id)
+        write_downs = get_write_downs()
+        write_down = get_object_or_404(write_downs, id=write_out_id)
         data = {
             'write_down': write_down,
             'form': WriteOutForm(instance=write_out)
@@ -148,7 +145,8 @@ def edit_write_out(request, write_out_id):
 
 
 def edit_write_down(request, write_down_id):
-    write_down = get_object_or_404(WriteDown, pk=write_down_id)
+    write_downs = get_write_downs()
+    write_down = get_object_or_404(write_downs, id=write_down_id)
     if request.method == 'GET':
         form = WriteDownForm(instance=write_down)
         data = {'form': form,
@@ -164,11 +162,20 @@ def edit_write_down(request, write_down_id):
     return HttpResponse(status=405)
 
 
-def delete(request, type, id):
-    if request.method == 'get':
-        print(type, id)
-        return HttpResponse(json.dumps({'any to see' + str(type): 'this is happening' + str(id)}),
-                            content_type='application/json')
+def delete(request):
+    if request.method == 'GET':
+        type = request.GET.get('type')
+        id = request.GET.get('id')
+        if(type == 'write-down'):
+            item = get_object_or_404(WriteDown, pk=id)
+        elif(type == 'write-out'):
+            item = get_object_or_404(WriteOut, write_down=id)
+        elif(type == 'extra-write-out'):
+            item = get_object_or_404(ExtraWriteOut, write_down=id)
+        item.is_published = False
+        item.save()
+        return HttpResponse('Ok',
+                            content_type='application/text')
     else:
-        return HttpResponse(json.dumps({'nothing to see': 'this isn\'t happening'}),
-                            content_type='application/json')
+        return HttpResponse('No',
+                            content_type='application/text')

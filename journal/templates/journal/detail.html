@@ -12,7 +12,7 @@
                     <p>{{ write_down.text }}</p>
                     <ul class="uk-subnav uk-subnav-divider" uk-margin>
                         <li><a href="{% url 'journal:edit/write-down' write_down.id %}" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
-                        <li><a href="#" class="uk-text-danger" id="delete" data-type="write-down" data-id="{{ write_down.id }}"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                        <li><a class="uk-text-danger delete" data-type="write-down" data-id="{{ write_down.id }}"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
                     </ul>
                 </div>
                 </div>
@@ -26,7 +26,7 @@
                         <p>{{ write_out.text }}</p>
                         <ul class="uk-subnav uk-subnav-divider" uk-margin>
                             <li><a href="{% url 'journal:edit/write-out' write_down.id %}" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
-                            <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                            <li><a class="uk-text-danger delete" data-type="write-out" data-id="{{ write_down.id }}"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
                         </ul>
                     {% else %}
                         <p><a href="{% url 'journal:add/write-out' write_down.id %}" class="uk-button uk-button-default">Добавить выписку</a></p>
@@ -44,7 +44,7 @@
                         <p>{{ extra_write_out.text }}</p>
                         <ul class="uk-subnav uk-subnav-divider" uk-margin>
                             <li><a href="{% url 'journal:edit/extra-write-out' write_down.id %}" class="uk-text-success"><span class="uk-margin-small-right" uk-icon="pencil"></span>Редактировать</a></li>
-                            <li><a href="#" class="uk-text-danger"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
+                            <li><a class="uk-text-danger delete" data-type="extra-write-out" data-id="{{ write_down.id }}"><span class="uk-margin-small-right" uk-icon="trash"></span>Удалить</a></li>
                         </ul>
                     {% else %}
                         <p><a href="{% url 'journal:add/extra-write-out' write_down.id %}" class="uk-button uk-button-default">Добавить доп. выписку</a></p>

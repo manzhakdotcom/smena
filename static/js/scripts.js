@@ -1,19 +1,22 @@
 $(function () {
-    $("#delete").click(function () {
-        var type = $(this).attr("data-type");
-        var id = $(this).attr("data-id");
-        var url = window.location.origin + '/journal/delete/' + type + '/' + id + '/';
-        $.ajax({
-            url: url,
-            type: 'get',
-            dataType: 'json',
-            beforeSend: function () {
-                console.log('Start')
-            },
-            success: function (data) {
-                console.log('Success')
-            }
-        });
-    });
+    $(".delete").click(function (e) {
+        if (confirm('Вы уверены, что хотите удалить запись?')){
+            e.preventDefault();
 
+            $.ajax({
+                url: '/journal/delete',
+                type: 'get',
+                dataType: 'text',
+                data: {
+                    'type': $(this).attr("data-type"),
+                    'id': $(this).attr("data-id"),
+                },
+                success: function (data) {
+                    if('Ok' == data) {
+                        alert('Запись удалена. Перезагрузите страницу.')
+                    }
+                }
+            });
+        }
+    });
 });

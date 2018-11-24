@@ -2,6 +2,12 @@ from django.db import models
 # Create your models here.
 
 
+class WriteDownQuerySet(models.QuerySet):
+    def is_published(self):
+        return self.filter(
+            models.Q(is_published=True))
+
+
 class WriteDown(models.Model):
     date = models.DateField(verbose_name='Дата записи')
     time = models.TimeField(verbose_name='Время записи')
@@ -16,6 +22,8 @@ class WriteDown(models.Model):
     class Meta:
         verbose_name = 'Запись СЦБ'
         verbose_name_plural = 'Записи СЦБ'
+
+    objects = WriteDownQuerySet.as_manager()
 
 
 class WriteOutQuerySet(models.QuerySet):

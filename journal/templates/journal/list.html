@@ -1,4 +1,4 @@
-{% if all_write_down.exists %}
+{% if all_write_down %}
     {% for write_down in all_write_down %}
         <div class="uk-section-small uk-padding-remove-top">
             <div class="uk-card uk-card-default uk-card-body">
@@ -40,6 +40,30 @@
             </div>
         </div>
     {% endfor %}
+    {% if all_write_down.has_other_pages %}
+    <div>
+        <ul class="uk-pagination uk-flex-center" uk-margin>
+            {% if all_write_down.has_previous %}
+                <li><a href="?page={{ all_write_down.previous_page_number }}"><span uk-pagination-previous></span></a>
+                </li>
+            {% else %}
+                <li class="uk-disabled"><span uk-pagination-previous></span></li>
+            {% endif %}
+            {% for i in all_write_down.paginator.page_range %}
+                {% if all_write_down.number == i %}
+                    <li class="uk-active"><span>{{ i }}</span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if all_write_down.has_next %}
+                <li><a href="?page={{ all_write_down.next_page_number }}"><span uk-pagination-next></span></a></li>
+            {% else %}
+                <li class="uk-disabled"><span uk-pagination-next></span></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
 {% else %}
     <div class="uk-alert-primary" uk-alert>
         <p>Нет записей</p>

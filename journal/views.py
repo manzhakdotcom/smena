@@ -4,19 +4,22 @@ from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.conf import settings
 
 from journal.models import WriteDown, WriteOut, ExtraWriteOut
 from journal.forms import WriteOutForm, WriteDownForm, ExtraWriteOutForm
-from journal.utils import get_write_downs_with_details, get_write_downs, is_write_out, is_extra_write_out, get_write_outs, get_extra_write_outs
+from journal.utils import get_write_downs_with_details, get_write_downs, is_write_out, is_extra_write_out, get_write_outs, get_extra_write_outs, get_paginator_items
 from . import DisplayMessages
 
 
 # Create your views here.
 def index(request):
     if request.method == 'GET':
+        write_downs_with_details = get_write_downs_with_details()
+        write_downs = get_paginator_items(write_downs_with_details, settings.PAGINATE_BY, request.GET.get('page'))
         data = {
             'alert': request.GET.get('alert', False),
-            'all_write_down': get_write_downs_with_details(),
+            'all_write_down': write_downs,
         }
         return render(request, 'index.html', data)
     return HttpResponse(status=405)
